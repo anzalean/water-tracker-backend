@@ -4,11 +4,16 @@ import {
   loginUserController,
   refreshSessionController,
   logoutUserController,
+  requestResetEmailController,
+  resetPasswordController,
+  validateResetTokenController
 } from '../controllers/auth.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import {
-    registerUserSchema,
-    loginUserSchema,
+  registerUserSchema,
+  loginUserSchema,
+  requestResetEmailSchema,
+  resetPasswordSchema
 } from '../validation/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
@@ -26,5 +31,22 @@ router.post(
 );
 router.post('/refresh', ctrlWrapper(refreshSessionController));
 router.post('/logout', ctrlWrapper(logoutUserController));
+
+router.post(
+  '/send-reset-email',
+  validateBody(requestResetEmailSchema),
+  ctrlWrapper(requestResetEmailController),
+);
+
+router.get(
+    '/reset-password',
+    ctrlWrapper(validateResetTokenController)
+);
+
+router.post(
+    '/reset-pwd',
+    validateBody(resetPasswordSchema),
+    ctrlWrapper(resetPasswordController)
+);
 
 export default router;
