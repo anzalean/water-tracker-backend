@@ -1,6 +1,9 @@
 import Joi from 'joi';
 
-export const addWaterNoteSchema = Joi.object({
+export const addWaterCardSchema = Joi.object({
   date: Joi.date().required(),
-  amoun: Joi.number().required()
+  amount: Joi.number().required()
+});
+export const gatWaterSumDaySchema = Joi.object({
+  date: Joi.date().required()
 });

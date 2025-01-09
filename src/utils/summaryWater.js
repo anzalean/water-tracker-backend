@@ -1,9 +1,14 @@
+import { Water } from "../db/models/water";
+import { endOfMonth, startOfMonth } from 'date-fns';
+import {expressAsyncHandler, asyncHandler} from 'express-async-handler';
+import createHttpError from "http-errors";
+
 export const getDayWater = asyncHandler(async (req, res) => {
   const { _id: owner } = req.user;
 
   const date = new Date(+req.params.date);
 
-  const userTimezoneOffset = req.user.timezoneOffset  0;
+  const userTimezoneOffset = req.user.timezoneOffset || 0;
 
   const startOfDay = new Date(date);
   startOfDay.setHours(0 - userTimezoneOffset / 60, 0, 0, 0);
@@ -23,7 +28,7 @@ export const getDayWater = asyncHandler(async (req, res) => {
   });
 
   if (!foundWaterDayData) {
-    throw HttpError(404, `Info for this day not found`);
+    throw createHttpError(404, `Info for this day not found`);
   }
 
   const totalDayWater = foundWaterDayData.reduce(
@@ -43,7 +48,7 @@ export const getMonthWater = asyncHandler(async (req, res) => {
   const { _id: owner } = req.user;
   const date = new Date(+req.params.date);
 
-  const userTimezoneOffset = req.user.timezoneOffset  0;
+  const userTimezoneOffset = req.user.timezoneOffset || 0;
 
   const startOfMonthDate = startOfMonth(date);
   const endOfMonthDate = endOfMonth(date);
@@ -90,32 +95,21 @@ export const summaryTodayWater = expressAsyncHandler(async (req, res) => {
   res.status(200).json({ todaySumamryWater });
 });
 
+export const getSummaryTodayWater = expressAsyncHandler(async () => {
+  const startOfDay = new Date().setHours(0, 0, 0, 0);
+  const endOfDay = new Date().setHours(23, 59, 59, 999);
 
-
-const waterSchema = new Schema(
-  {
+  const todayAddedWaterCards = await Water.find({
     date: {
-      type: Number,
-      min: +startDate,
-      validate: {
-        validator: function (value) {
-          return value <= Date.now() + unixDay;
-        },
-        message: 'Date must be less than or equal to the current date.',
-      },
-      required: true,
+      $gte: startOfDay,
+      $lte: endOfDay,
     },
-    amount: {
-      type: Number,
-      min: 10,
-      max: 2000,
-      required: true,
-    },
-    owner: {
-      type: Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
-  },
-  { versionKey: false, timestamps: true },
-);
+  });
+
+  let totalDailyWaterAmount = 0;
+  for (const card of todayAddedWaterCards) {
+    totalDailyWaterAmount += card.amount;
+  }
+
+  return totalDailyWaterAmount;
+});
