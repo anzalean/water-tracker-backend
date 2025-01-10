@@ -1,8 +1,9 @@
 import {Router} from "express";
 import { validateBody } from "../middlewares/validateBody.js";
-import { addWaterCardController, getDayWaterContoller } from "../controllers/water.js";
-import { addWaterCardSchema, gatWaterSumDaySchema } from "../validation/water.js";
+import { addWaterCardController, deleteWaterCardController, getDayWaterContoller, getMonthWaterContoller, updateWaterCardController } from "../controllers/water.js";
+import { addWaterCardSchema, updateWaterCardSchema } from "../validation/water.js";
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
+import { isValidId } from "../middlewares/isValidId.js";
 
 
 const router = Router();
@@ -12,11 +13,22 @@ router.post(
   validateBody(addWaterCardSchema),
   ctrlWrapper(addWaterCardController)
 );
+router.patch(
+  '/updateWaterCard/:cardId',
+  isValidId,
+  validateBody(updateWaterCardSchema),
+  ctrlWrapper(updateWaterCardController)
+);
+
+router.delete('/deleteWaterCard/:cardId', isValidId, ctrlWrapper(deleteWaterCardController));
 
 router.get(
   '/getDayWater',
-  validateBody(gatWaterSumDaySchema),
   ctrlWrapper(getDayWaterContoller),
+);
+router.get(
+  '/getMonthWater',
+  ctrlWrapper(getMonthWaterContoller),
 );
 
 export default router;
