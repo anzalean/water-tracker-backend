@@ -136,10 +136,10 @@ export const updateUserService = async (userId, updates) => {
 export const loginOrSignupWithGoogle = async (code) => {
   const loginTicket = await validateCode(code);
   const payload = loginTicket.getPayload();
-  
-  if (!payload) throw createHttpError(401, 'Unauthorized');
-  let user = await User.findOne({ email: payload.email });
 
+  if (!payload) throw createHttpError(401);
+
+  let user = await User.findOne({ email: payload.email });
   if (!user) {
     const password = await bcrypt.hash(crypto.randomBytes(10).toString('base64'), 10);
     user = await User.create({
@@ -148,10 +148,14 @@ export const loginOrSignupWithGoogle = async (code) => {
       password,
     });
   }
-  const newSession = createSession(user._id);
-  const session = await Session.create(newSession);
 
-  return session;
+  const newSession = createSession();
+  const session = await Session.create({
+    userId: user._id,
+    ...newSession,
+  });
+
+  return { session, user };
 };
 
 //--------------------resetMailService--------------------
