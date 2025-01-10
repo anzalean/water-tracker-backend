@@ -15,6 +15,11 @@ import { sendEmail } from '../utils/sendMail.js';
 import handlebars from 'handlebars';
 import path from 'node:path';
 import fs from 'node:fs/promises';
+import {
+  getFullNameFromGoogleTokenPayload,
+  validateCode,
+} from "../utils/googleOAuth2.js";
+
 
 const createSession = (userId) => {
   const accessToken = crypto.randomBytes(30).toString('base64');
@@ -114,8 +119,42 @@ export const logoutUserService = async (sessionId) => {
   await Session.deleteOne({ _id: sessionId });
 };
 
-//--------------------resetMailService--------------------
+//--------------------updateUserService--------------------
+export const updateUserService = async (userId, updates) => {
+  const user = await User.findByIdAndUpdate(userId, updates, {
+    new: true,
+    runValidators: true,
+    upsert: false,
+  });
+  if (!user) {
+    throw createHttpError(404, 'User not found!');
+  }
+  return user;
+};
 
+//--------------------loginOrSignupWithGoogle--------------------
+export const loginOrSignupWithGoogle = async (code) => {
+  const loginTicket = await validateCode(code);
+  const payload = loginTicket.getPayload();
+  
+  if (!payload) throw createHttpError(401, 'Unauthorized');
+  let user = await User.findOne({ email: payload.email });
+
+  if (!user) {
+    const password = await bcrypt.hash(crypto.randomBytes(10).toString('base64'), 10);
+    user = await User.create({
+      email: payload.email,
+      name: getFullNameFromGoogleTokenPayload(payload),
+      password,
+    });
+  }
+  const newSession = createSession(user._id);
+  const session = await Session.create(newSession);
+
+  return session;
+};
+
+//--------------------resetMailService--------------------
 export const requestResetTokenService = async (email) => {
 
     const user = await User.findOne({ email });

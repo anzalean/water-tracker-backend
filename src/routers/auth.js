@@ -2,8 +2,11 @@ import { Router } from 'express';
 import {
   registerUserController,
   loginUserController,
+  loginWithGoogleController,
   refreshSessionController,
   logoutUserController,
+  updateUserController,
+  getGoogleOAuthUrlController,
   requestResetEmailController,
   resetPasswordController,
   validateResetTokenController
@@ -12,10 +15,14 @@ import { validateBody } from '../middlewares/validateBody.js';
 import {
   registerUserSchema,
   loginUserSchema,
+  updateUserSchema,
+  loginWithGoogleOAuthSchema,
   requestResetEmailSchema,
   resetPasswordSchema
 } from '../validation/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import { authenticate } from "../middlewares/authenticate.js";
+import { upload } from "../middlewares/upload.js";
 
 const router = Router();
 
@@ -31,6 +38,22 @@ router.post(
 );
 router.post('/refresh', ctrlWrapper(refreshSessionController));
 router.post('/logout', ctrlWrapper(logoutUserController));
+
+router.patch(
+  "/update-user",
+  upload.single("avatar"),
+  authenticate,
+  validateBody(updateUserSchema),
+  ctrlWrapper(updateUserController),
+);
+
+router.get("/get-oauth-url", ctrlWrapper(getGoogleOAuthUrlController));
+
+router.post(
+  "/google-login",
+  validateBody(loginWithGoogleOAuthSchema),
+  ctrlWrapper(loginWithGoogleController),
+);
 
 router.post(
   '/send-reset-email',
