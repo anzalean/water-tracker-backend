@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import { addWaterCardService, deleteWaterCardService, getDayWaterService, getMonthWaterService, updateWaterCardService } from "../services/water.js";
+import { addWaterCardService, deleteWaterCardService, getDayWaterService, getMonthWaterService, getSummaryTodayWaterService, updateWaterCardService } from "../services/water.js";
 
 export async function addWaterCardController(req, res) {
   const {date, amount} = req.body;
@@ -71,6 +71,16 @@ export async function getMonthWaterContoller(req, res) {
   res.status(200).send({
     status: 200,
     message: 'Total month water cards',
+    data: result,
+  });
+}
+
+export async function getTodayWaterContoller(req, res) {
+
+  const result = await getSummaryTodayWaterService(req, res);
+  res.status(200).send({
+    status: 200,
+    message: 'Total today water cards',
     data: result,
   });
 }
