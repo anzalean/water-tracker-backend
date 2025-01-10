@@ -26,9 +26,7 @@ export const deleteWaterCardService = async (cardId, owner) => {
 export const getDayWaterService = expressAsyncHandler(async (req, res) => {
   const { _id: owner } = req.user;
 
-  const date = new Date(+req.params.date);
-
-  console.log(date);
+  const date = new Date(+req.query.date);
 
 
   const userTimezoneOffset = req.user.timezoneOffset || 0;
@@ -69,7 +67,9 @@ export const getDayWaterService = expressAsyncHandler(async (req, res) => {
 
 export const getMonthWaterService = expressAsyncHandler(async (req, res) => {
   const { _id: owner } = req.user;
-  const date = new Date(+req.params.date);
+  const date = new Date(+req.query.date);
+  console.log(req.params.date);
+
 
   const userTimezoneOffset = req.user.timezoneOffset || 0;
 
@@ -110,5 +110,23 @@ export const getMonthWaterService = expressAsyncHandler(async (req, res) => {
 
   const result = Object.values(aggregatedData);
   return result;
-  // res.status(200).json(result);
+});
+
+export const getSummaryTodayWaterService = expressAsyncHandler(async () => {
+  const startOfDay = new Date().setHours(0, 0, 0, 0);
+  const endOfDay = new Date().setHours(23, 59, 59, 999);
+
+  const todayWaterCards = await Water.find({
+    date: {
+      $gte: startOfDay,
+      $lte: endOfDay,
+    },
+  });
+
+  let totalDailyWaterAmount = 0;
+  for (const card of todayWaterCards) {
+    totalDailyWaterAmount += card.amount;
+  }
+
+  return {totalDailyWaterAmount, todayWaterCards };
 });
