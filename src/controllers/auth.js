@@ -3,22 +3,29 @@ import {
   loginUserService,
   refreshUsersSessionService,
   logoutUserService,
+  updateUserService,
+  loginOrSignupWithGoogle,
   requestResetTokenService,
   resetPasswordService,
   validateResetTokenService
 } from '../services/auth.js';
+import { saveFileToCloudinary } from "../utils/saveFileToCloudinary.js";
+import { saveFileToUploadDir } from "../utils/saveFileToUploadDir.js";
+import { generateAuthUrl } from "../utils/googleOAuth2.js";
+import { env } from "../utils/env.js";
+
 
 const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: 'None',
+    sameSite: 'Strict',
     expires: session.refreshTokenValidUntil,
   });
   res.cookie('sessionId', session._id, {
     httpOnly: true,
     secure: true,
-    sameSite: 'None',
+    sameSite: 'Strict',
     expires: session.refreshTokenValidUntil,
   });
 };
@@ -81,6 +88,61 @@ export const logoutUserController = async (req, res) => {
   res.clearCookie('sessionId');
   res.clearCookie('refreshToken');
   res.status(204).send();
+};
+
+
+//--------------------updateUserController--------------------
+export const updateUserController = async (req, res) => {
+  const { id: userId } = req.user;
+  const updates = req.body;
+  const avatarPhoto = req.file;
+
+  let avatarUrl;
+  if (avatarPhoto) {
+    if (env("ENABLE_CLOUDINARY") === "true") {
+      avatarUrl = await saveFileToCloudinary(avatarPhoto);
+    } else {
+      avatarUrl = await saveFileToUploadDir(avatarPhoto);
+    }
+  }
+  const user = await updateUserService(userId, {
+    ...updates,
+    avatarURL: avatarUrl,
+  });
+
+  res.json({
+    status: 200,
+    message: "User updated successfully",
+    data: { user },
+  });
+};
+
+//--------------------getGoogleOAuthUrlController--------------------
+export const getGoogleOAuthUrlController = async (req, res) => {
+  const url = generateAuthUrl();
+
+  res.json({
+    status: 200,
+    message: "Successfully get Google OAuth url!",
+    data: {
+      url,
+    },
+  });
+};
+
+//--------------------loginWithGoogleController--------------------
+export const loginWithGoogleController = async (req, res) => {
+  const { session, user } = await loginOrSignupWithGoogle(req.body.code);
+  setupSession(res, session);
+
+  res.json({
+    status: 200,
+    message: "Successfully logged in via Google OAuth!",
+    data: {
+      accessToken: session.accessToken,
+      user,
+    },
+  });
 };
 
 //--------------------resetMailController--------------------
