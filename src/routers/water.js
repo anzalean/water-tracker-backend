@@ -9,29 +9,29 @@ import { isValidId } from "../middlewares/isValidId.js";
 const router = Router();
 
 router.post(
-  '/addWaterCard',
+  '/',
   validateBody(addWaterCardSchema),
   ctrlWrapper(addWaterCardController)
 );
 router.patch(
-  '/updateWaterCard/:cardId',
+  '/:cardId',
   isValidId,
   validateBody(updateWaterCardSchema),
   ctrlWrapper(updateWaterCardController)
 );
 
-router.delete('/deleteWaterCard/:cardId', isValidId, ctrlWrapper(deleteWaterCardController));
+router.delete('/:cardId', isValidId, ctrlWrapper(deleteWaterCardController));
 
 router.get(
-  '/getDayWater',
+  '/day',
   ctrlWrapper(getDayWaterContoller),
 );
 router.get(
-  '/getMonthWater',
+  '/month',
   ctrlWrapper(getMonthWaterContoller),
 );
 router.get(
-  '/getTodayWater',
+  '/today',
   ctrlWrapper(getTodayWaterContoller),
 );
 
