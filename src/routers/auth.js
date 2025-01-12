@@ -9,7 +9,9 @@ import {
   getGoogleOAuthUrlController,
   requestResetEmailController,
   resetPasswordController,
-  validateResetTokenController
+  validateResetTokenController,
+  getCurrentUserController,
+  getUserCountController
 } from '../controllers/auth.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import {
@@ -72,5 +74,9 @@ router.post(
     validateBody(resetPasswordSchema),
     ctrlWrapper(resetPasswordController)
 );
+
+router.get('/current', authenticate, ctrlWrapper(getCurrentUserController));
+
+router.get("/count", ctrlWrapper(getUserCountController));
 
 export default router;

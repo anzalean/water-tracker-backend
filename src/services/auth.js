@@ -54,7 +54,6 @@ export async function registerUserService(payload) {
 
   return {
     _id: newUser._id,
-    name: newUser.name,
     email: newUser.email,
     avatarUrl: newUser.avatarURL,
     createdAt: newUser.createdAt,
@@ -226,6 +225,7 @@ export const validateResetTokenService = async ({ token }) => {
     }
 };
 
+//--------------------resetPasswordService--------------------
 export const resetPasswordService = async (payload) => {
     let entries;
 
@@ -253,3 +253,7 @@ export const resetPasswordService = async (payload) => {
     );
 };
 
+//--------------------getUserCountService--------------------
+export const getUserCounterService = async () => {
+  return await User.countDocuments();
+};
