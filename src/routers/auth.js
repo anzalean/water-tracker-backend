@@ -9,7 +9,8 @@ import {
   getGoogleOAuthUrlController,
   requestResetEmailController,
   resetPasswordController,
-  validateResetTokenController
+  validateResetTokenController,
+  getCurrentUserController
 } from '../controllers/auth.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import {
@@ -71,5 +72,7 @@ router.post(
     validateBody(resetPasswordSchema),
     ctrlWrapper(resetPasswordController)
 );
+
+router.get('/current', authenticate, ctrlWrapper(getCurrentUserController));
 
 export default router;

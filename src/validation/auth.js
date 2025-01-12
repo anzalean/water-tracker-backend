@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
 export const registerUserSchema = Joi.object({
-    name: Joi.string().min(3).max(20).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(8).max(50).required(),
 });
@@ -20,7 +19,7 @@ export const updateUserSchema = Joi.object({
     activityTime: Joi.number().min(0).optional(),
     desiredVolume: Joi.number().min(50).max(5000).optional(),
 });
-  
+
 export const loginWithGoogleOAuthSchema = Joi.object({
     code: Joi.string().required(),
 });
