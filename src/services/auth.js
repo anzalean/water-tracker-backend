@@ -249,3 +249,7 @@ export const resetPasswordService = async (payload) => {
     );
 };
 
+//--------------------getUserCountService--------------------
+export const getUserCounterService = async () => {
+  return await User.countDocuments();
+};
