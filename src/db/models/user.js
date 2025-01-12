@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const userShema = new Schema(
+const userSchema = new Schema(
   {
     email: {
       type: String,
@@ -12,7 +12,7 @@ const userShema = new Schema(
       required: [true, 'Password is required'],
     },
     avatarURL: {
-      type: String || null,
+      type: String,
       default: null,
     },
     name: {
@@ -60,4 +60,4 @@ const userShema = new Schema(
   { versionKey: false, timestamps: true },
 );
 
-export const User = model('User', userShema);
+export const User = model('User', userSchema);

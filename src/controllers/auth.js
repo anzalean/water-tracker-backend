@@ -32,8 +32,25 @@ const setupSession = (res, session) => {
 
 //--------------------registerUserController--------------------
 export const registerUserController = async (req, res) => {
-    const { name, email, password } = req.body;
-    const newUser = await registerUserService({ name, email, password });
+
+  const { name, email, password } = req.body;
+  const avatarPhoto = req.file;
+
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: 'Missing required fields' });
+  }
+
+  let avatarUrl = null;
+  if (avatarPhoto) {
+    if (env("ENABLE_CLOUDINARY") === "true") {
+      avatarUrl = await saveFileToCloudinary(avatarPhoto);
+      console.log("Avatar URL from Cloudinary:", avatarUrl);
+    } else {
+      avatarUrl = await saveFileToUploadDir(avatarPhoto);
+    }
+
+    const newUser = await registerUserService({ name, email, password, avatarUrl });
+
     res.status(201).json({
       status: 201,
       message: 'Successfully registered a user!',
@@ -41,10 +58,12 @@ export const registerUserController = async (req, res) => {
         id: newUser._id,
         name: newUser.name,
         email: newUser.email,
+        avatarUrl: newUser.avatarUrl, // додано URL аватара
         createdAt: newUser.createdAt,
         updatedAt: newUser.updatedAt,
       },
     });
+  };
 };
 
 //--------------------loginUserController--------------------
