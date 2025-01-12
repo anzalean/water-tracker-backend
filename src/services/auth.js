@@ -51,7 +51,6 @@ export async function registerUserService(payload) {
 
   return {
     _id: newUser._id,
-    name: newUser.name,
     email: newUser.email,
     createdAt: newUser.createdAt,
     updatedAt: newUser.updatedAt,
@@ -222,6 +221,7 @@ export const validateResetTokenService = async ({ token }) => {
     }
 };
 
+//--------------------resetPasswordService--------------------
 export const resetPasswordService = async (payload) => {
     let entries;
 

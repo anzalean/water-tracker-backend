@@ -32,17 +32,14 @@ const setupSession = (res, session) => {
 
 //--------------------registerUserController--------------------
 export const registerUserController = async (req, res) => {
-    const { name, email, password } = req.body;
-    const newUser = await registerUserService({ name, email, password });
+    const { email, password } = req.body;
+    const newUser = await registerUserService({ email, password });
     res.status(201).json({
       status: 201,
       message: 'Successfully registered a user!',
       data: {
         id: newUser._id,
-        name: newUser.name,
         email: newUser.email,
-        createdAt: newUser.createdAt,
-        updatedAt: newUser.updatedAt,
       },
     });
 };
@@ -56,7 +53,6 @@ export const loginUserController = async (req, res) => {
     status: 200,
     message: 'Successfully logged in an user!',
     data: {
-      accessToken: session.accessToken,
       user,
     },
   });
@@ -177,6 +173,28 @@ export const resetPasswordController = async (req, res) => {
         status: 200,
         data: {}
     });
+};
+
+//--------------------getCurrentUserController--------------------
+export const getCurrentUserController = async (req, res) => {
+  const user = req.user;
+
+  res.json({
+    status: 200,
+    message: 'User fetched successfully',
+    data: {
+      id: user._id,
+      email: user.email,
+      avatarURL: user.avatarURL,
+      name: user.name,
+      gender: user.gender,
+      weight: user.weight,
+      activityTime: user.activityTime,
+      desiredVolume: user.desiredVolume,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    },
+  });
 };
 
 
