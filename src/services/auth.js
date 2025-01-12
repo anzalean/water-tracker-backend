@@ -38,21 +38,25 @@ const createSession = (userId) => {
 
 //--------------------registerUserService--------------------
 export async function registerUserService(payload) {
-  const { email, password } = payload;
+  const { email, password, avatarUrl, ...otherFields } = payload;
   const existingUser = await User.findOne({ email });
   if (existingUser) throw createHttpError(409, 'Email already exist');
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser = await User.create({
-    ...payload,
+  const newUser = new User({
+    email,
     password: hashedPassword,
+    avatarURL: avatarUrl,
+    ...otherFields
   });
+  await newUser.save(); 
 
   return {
     _id: newUser._id,
     name: newUser.name,
     email: newUser.email,
+    avatarUrl: newUser.avatarURL,
     createdAt: newUser.createdAt,
     updatedAt: newUser.updatedAt,
   };
