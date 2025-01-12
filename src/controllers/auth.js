@@ -7,7 +7,8 @@ import {
   loginOrSignupWithGoogle,
   requestResetTokenService,
   resetPasswordService,
-  validateResetTokenService
+  validateResetTokenService,
+  getUserCounterService
 } from '../services/auth.js';
 import { saveFileToCloudinary } from "../utils/saveFileToCloudinary.js";
 import { saveFileToUploadDir } from "../utils/saveFileToUploadDir.js";
@@ -196,5 +197,21 @@ export const getCurrentUserController = async (req, res) => {
     },
   });
 };
+
+//--------------------getUserCountController--------------------
+export const getUserCountController = async (req, res) => {
+  const user = await getUserCounterService();
+  res.json({
+    status: 200,
+    message: 'Number of customers successfully received on web-platform!',
+    data: {
+      user,
+    },
+  });
+};
+
+
+
+
 
 
