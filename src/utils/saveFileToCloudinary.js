@@ -12,9 +12,7 @@ cloudinary.v2.config({
 });
 
 export const saveFileToCloudinary = async (file) => {
-    console.log("Uploading file to Cloudinary:", file.path); // Додаткове логування
     const response = await cloudinary.v2.uploader.upload(file.path);
-    console.log("Cloudinary response:", response); // Додаткове логування
     await fs.unlink(file.path);
     return response.secure_url;
 };
