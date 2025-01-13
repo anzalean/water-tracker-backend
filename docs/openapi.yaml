@@ -52,6 +52,23 @@ paths:
   /auth/count:
     get:
       $ref: ../swagger/path/auth/count.yaml
+  /water:
+    post:
+      $ref: ../swagger/path/water/post.yaml
+  /water/{id}:
+    patch:
+      $ref: ../swagger/path/water/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/path/water/{id}/delete.yaml
+  /water/day:
+    get:
+      $ref: ../swagger/path/water/getDay.yaml
+  /water/month:
+    get:
+      $ref: ../swagger/path/water/getMonth.yaml
+  /water/today:
+    get:
+      $ref: ../swagger/path/water/getToday.yaml
 components:
   securitySchemes:
     bearerAuth:
