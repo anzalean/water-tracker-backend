@@ -38,7 +38,7 @@ const createSession = (userId) => {
 
 //--------------------registerUserService--------------------
 export async function registerUserService(payload) {
-  const { email, password, gender } = payload;
+  const { email, password } = payload;
   const existingUser = await User.findOne({ email });
   if (existingUser) throw createHttpError(409, 'Email already exist');
 
@@ -47,7 +47,7 @@ export async function registerUserService(payload) {
   const newUser = await User.create({
     ...payload,
     password: hashedPassword,
-    gender
+     
   });
 
   return {
