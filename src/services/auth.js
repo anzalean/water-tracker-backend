@@ -48,7 +48,6 @@ export async function registerUserService(payload) {
     ...payload,
     password: hashedPassword
   });
-  await newUser.save();
 
   return {
     _id: newUser._id,
