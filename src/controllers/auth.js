@@ -43,7 +43,7 @@ export const registerUserController = async (req, res) => {
         email: newUser.email,
       },
     });
-};
+  };
 
 //--------------------loginUserController--------------------
 export const loginUserController = async (req, res) => {

@@ -46,7 +46,7 @@ export async function registerUserService(payload) {
 
   const newUser = await User.create({
     ...payload,
-    password: hashedPassword,
+    password: hashedPassword
   });
 
   return {
@@ -76,9 +76,15 @@ export async function loginUserService(payload) {
   const newSession = createSession(user._id);
   const createdSession = await Session.create(newSession);
 
+  const userWithTokens = {
+    ...user.toObject(),
+    accessToken: createdSession.accessToken,
+    refreshToken: createdSession.refreshToken
+  };
+
   return {
     session: createdSession,
-    user,
+    user: userWithTokens
   };
 }
 
