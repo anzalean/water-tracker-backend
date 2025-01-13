@@ -1,0 +1,54 @@
+tags:
+  - Water
+summary: Editing a water map
+operationId: editCard
+description: Editing a water map
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: '65ca67e7ae7f10c88b598384'
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - date
+          - amount
+        properties:
+          date:
+            description: Water card edition date
+            type: string
+            format: date-time
+            pattern: ^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z$
+            example: 2025-01-05T17:14
+          amount:
+            description: Amount of water
+            type: number
+            example: 50
+responses:
+  '201':
+    description: Editing a water map
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully patched a water card!
+            data:
+              type: object
+              $ref: ../../../components/schemas/water.yaml

@@ -1,24 +1,12 @@
 tags:
   - Auth
-summary: Reset password
-operationId: resetEmail
-description: Password reset via email
+summary: Count user
+operationId: countUser
+description: Number of users
 security: []
-requestBody:
-  content:
-    application/json:
-      schema:
-        type: object
-        required:
-          - email
-        properties:
-          email:
-            description: User's email
-            type: string
-            example: peter12@example.com
 responses:
   '200':
-    description: Password reset via email
+    description: Count user
     content:
       application/json:
         schema:
@@ -33,10 +21,16 @@ responses:
               example: 200
             message:
               type: string
-              example: Reset password email was successfully sent!
+              example: User fetched successfully
             data:
               type: object
-              example: {}
+              required:
+                - users
+              properties:
+                users:
+                  description: Number of users
+                  type: integer
+                  example: 16
   '400':
     $ref: '../../components/responses/auth/400.yaml'
   '500':

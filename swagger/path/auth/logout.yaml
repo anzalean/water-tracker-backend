@@ -1,0 +1,23 @@
+tags:
+  - Auth
+summary: User logout
+operationId: logoutUser
+description: User logout
+security: []
+responses:
+  '204':
+    description: User logout
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+          properties:
+            status:
+              type: integer
+              example: 204
+  '400':
+    $ref: '../../components/responses/auth/400.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

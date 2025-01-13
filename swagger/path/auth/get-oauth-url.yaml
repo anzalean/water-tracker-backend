@@ -1,24 +1,12 @@
 tags:
   - Auth
-summary: Reset password
-operationId: resetEmail
-description: Password reset via email
+summary: Get URL
+operationId: getURL
+description: Get Google OAuth URL
 security: []
-requestBody:
-  content:
-    application/json:
-      schema:
-        type: object
-        required:
-          - email
-        properties:
-          email:
-            description: User's email
-            type: string
-            example: peter12@example.com
 responses:
   '200':
-    description: Password reset via email
+    description: Google OAuth url
     content:
       application/json:
         schema:
@@ -33,10 +21,16 @@ responses:
               example: 200
             message:
               type: string
-              example: Reset password email was successfully sent!
+              example: Successfully get Google OAuth url
             data:
               type: object
-              example: {}
+              required:
+                - url
+              properties:
+                url:
+                  description: Google OAuth url
+                  type: string
+                  format: binary
   '400':
     $ref: '../../components/responses/auth/400.yaml'
   '500':
