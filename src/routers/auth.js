@@ -30,7 +30,6 @@ const router = Router();
 
 router.post(
   '/register',
-  upload.single('avatar'),
   validateBody(registerUserSchema),
   ctrlWrapper(registerUserController),
 );
