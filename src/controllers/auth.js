@@ -39,7 +39,7 @@ export const registerUserController = async (req, res) => {
       status: 201,
       message: 'Successfully registered a user!',
       data: {
-        id: newUser._id,
+        userId: newUser._id,
         email: newUser.email,
       },
     });
@@ -54,7 +54,9 @@ export const loginUserController = async (req, res) => {
     status: 200,
     message: 'Successfully logged in an user!',
     data: {
-      user,
+      userId: user._id,
+      email: user.email,
+      accessToken: session.accessToken,
     },
   });
 };
@@ -73,7 +75,7 @@ export const refreshSessionController = async (req, res) => {
     message: 'Successfully refreshed a session!',
     data: {
       accessToken: session.accessToken,
-      user,
+      userId: user._id,
     },
   });
 };
@@ -84,7 +86,7 @@ export const logoutUserController = async (req, res) => {
 
   res.clearCookie('sessionId');
   res.clearCookie('refreshToken');
-  res.status(204).send();
+  res.status(204).send({status: 204});
 };
 
 
@@ -183,29 +185,18 @@ export const getCurrentUserController = async (req, res) => {
   res.json({
     status: 200,
     message: 'User fetched successfully',
-    data: {
-      id: user._id,
-      email: user.email,
-      avatarURL: user.avatarURL,
-      name: user.name,
-      gender: user.gender,
-      weight: user.weight,
-      activityTime: user.activityTime,
-      desiredVolume: user.desiredVolume,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    },
+    data: { user },
   });
 };
 
 //--------------------getUserCountController--------------------
 export const getUserCountController = async (req, res) => {
-  const user = await getUserCounterService();
+  const users = await getUserCounterService();
   res.json({
     status: 200,
     message: 'Number of customers successfully received on web-platform!',
     data: {
-      user,
+      users,
     },
   });
 };

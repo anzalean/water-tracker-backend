@@ -1,24 +1,13 @@
 tags:
   - Auth
-summary: Reset password
-operationId: resetEmail
-description: Password reset via email
-security: []
-requestBody:
-  content:
-    application/json:
-      schema:
-        type: object
-        required:
-          - email
-        properties:
-          email:
-            description: User's email
-            type: string
-            example: peter12@example.com
+summary: Current user
+operationId: currentUser
+description: Getting the current user
+security:
+  - bearerAuth: []
 responses:
   '200':
-    description: Password reset via email
+    description: Current user
     content:
       application/json:
         schema:
@@ -33,10 +22,15 @@ responses:
               example: 200
             message:
               type: string
-              example: Reset password email was successfully sent!
+              example: User fetched successfully
             data:
               type: object
-              example: {}
+              required:
+                - user
+              properties:
+                user:
+                  type: object
+                  $ref: ../../components/schemas/user.yaml
   '400':
     $ref: '../../components/responses/auth/400.yaml'
   '500':

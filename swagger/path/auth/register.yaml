@@ -41,7 +41,21 @@ responses:
               example: Successfully registered a user
             data:
               type: object
-              $ref: '../../components/schemas/user.yaml'
+              required:
+                - userId
+                - email
+              properties:
+                userId:
+                  description: User`s id
+                  type: string
+                  example: 678427d895056fd9ae40e7c0
+                email:
+                  description: User`s email
+                  type: string
+                  example: peter12@example.com
+  '400' :
+    $ref: '../../components/responses/auth/400.yaml'
   '409' :
     $ref: '../../components/responses/auth/409.yaml'
-
+  '500':
+    $ref: '../../components/responses/500.yaml'

@@ -83,7 +83,22 @@
                     },
                     "data": {
                       "type": "object",
-                      "$ref": "#/components/schemas/user"
+                      "required": [
+                        "userId",
+                        "email"
+                      ],
+                      "properties": {
+                        "userId": {
+                          "description": "User`s id",
+                          "type": "string",
+                          "example": "678427d895056fd9ae40e7c0"
+                        },
+                        "email": {
+                          "description": "User`s email",
+                          "type": "string",
+                          "example": "peter12@example.com"
+                        }
+                      }
                     }
                   }
                 }
@@ -92,6 +107,760 @@
           },
           "409": {
             "$ref": "#/components/responses/409"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User authentication",
+        "operationId": "loginUser",
+        "description": "User authentication",
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "description": "User's email",
+                    "type": "string",
+                    "example": "peter12@example.com"
+                  },
+                  "password": {
+                    "description": "User's password",
+                    "type": "string",
+                    "example": "Asdf1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User successfully authenticated"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "userId",
+                        "email",
+                        "accessToken"
+                      ],
+                      "properties": {
+                        "userId": {
+                          "description": "User`s id",
+                          "type": "string",
+                          "example": "678427d895056fd9ae40e7c0"
+                        },
+                        "email": {
+                          "description": "User`s email",
+                          "type": "string",
+                          "example": "peter12@example.com"
+                        },
+                        "accessToken": {
+                          "description": "AccessToken",
+                          "type": "string",
+                          "example": "NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User logout",
+        "operationId": "logoutUser",
+        "description": "User logout",
+        "security": [],
+        "responses": {
+          "204": {
+            "description": "User logout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 204
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refresh token",
+        "operationId": "refreshToken",
+        "description": "User token refresh",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "User token refresh",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Token updated"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "userId",
+                        "accessToken"
+                      ],
+                      "properties": {
+                        "userId": {
+                          "description": "User`s id",
+                          "type": "string",
+                          "example": "678427d895056fd9ae40e7c0"
+                        },
+                        "accessToken": {
+                          "type": "string",
+                          "example": "NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/auth/update-user": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Update user",
+        "operationId": "updateUser",
+        "description": "Updating and adding user data",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [],
+                "properties": {
+                  "email": {
+                    "description": "User's email",
+                    "type": "string",
+                    "example": "peter12@example.com"
+                  },
+                  "avatarURL": {
+                    "description": "Link to user's photo",
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "name": {
+                    "description": "User`s name",
+                    "type": "string",
+                    "example": "Peter Pavlov"
+                  },
+                  "gender": {
+                    "description": "Choose gender",
+                    "type": "string",
+                    "enum": [
+                      "woman",
+                      "man"
+                    ]
+                  },
+                  "weight": {
+                    "description": "User`s weight",
+                    "type": "number",
+                    "example": 60
+                  },
+                  "activityTime": {
+                    "description": "User active time",
+                    "type": "number",
+                    "example": 2
+                  },
+                  "desiredVolume": {
+                    "description": "Desired water volume",
+                    "type": "number",
+                    "example": 50
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "update user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User updated successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "user"
+                      ],
+                      "properties": {
+                        "user": {
+                          "type": "object",
+                          "$ref": "#/components/schemas/user"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/auth/get-oauth-url": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get URL",
+        "operationId": "getURL",
+        "description": "Get Google OAuth URL",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Google OAuth url",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully get Google OAuth url"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "url"
+                      ],
+                      "properties": {
+                        "url": {
+                          "description": "Google OAuth url",
+                          "type": "string",
+                          "format": "binary"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/google-login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login via Google OAuth",
+        "operationId": "googleLogin",
+        "description": "Login via Google OAuth",
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "code"
+                ],
+                "properties": {
+                  "code": {
+                    "description": "Token",
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzgyY2I4ODQ4MDlhNjFhYjk2YzQyOGYiLCJlbWFpbCI6ImdvY2hha2luZHJAdWtyLm5ldCIsImlhdCI6MTczNjY0MzQyMiwiZXhwIjoxNzM2NjQzNzIyfQ.1qKbcPj7mv6vNp0DzO_qSzRBFD1Boa5nBIKkopjAQMc"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login via Google OAuth",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully logged in via Google OAuth!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "accessToken",
+                        "user"
+                      ],
+                      "properties": {
+                        "accessToken": {
+                          "description": "AccessToken",
+                          "type": "string",
+                          "example": "NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh"
+                        },
+                        "user": {
+                          "type": "object",
+                          "$ref": "#/components/schemas/user"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/send-reset-email": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Reset password",
+        "operationId": "resetEmail",
+        "description": "Password reset via email",
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email"
+                ],
+                "properties": {
+                  "email": {
+                    "description": "User's email",
+                    "type": "string",
+                    "example": "peter12@example.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset via email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Reset password email was successfully sent!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Token validation",
+        "operationId": "validToken",
+        "description": "Token validation",
+        "security": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Token is valid"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "decodedToken"
+                      ],
+                      "properties": {
+                        "decodedToken": {
+                          "type": "object",
+                          "required": [
+                            "sub",
+                            "email",
+                            "iat",
+                            "exp"
+                          ],
+                          "properties": {
+                            "sub": {
+                              "description": "User`s id",
+                              "type": "string",
+                              "example": "6783d4011c9216e73812660b"
+                            },
+                            "email": {
+                              "description": "User`s email",
+                              "type": "string",
+                              "example": "peter12@gmail.com"
+                            },
+                            "iat": {
+                              "description": "Token creation time",
+                              "type": "number",
+                              "example": 1736724577
+                            },
+                            "exp": {
+                              "description": "Token expiration time",
+                              "type": "number",
+                              "example": 1736724877
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/reset-pwd": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Reset password",
+        "operationId": "resetPassword",
+        "description": "Reset password",
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "token",
+                  "password"
+                ],
+                "properties": {
+                  "token": {
+                    "description": "Token",
+                    "type": "string",
+                    "example": "NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh"
+                  },
+                  "password": {
+                    "description": "User's password",
+                    "type": "string",
+                    "example": "Asdf1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reset password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Password was successfully reset!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/auth/current": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Current user",
+        "operationId": "currentUser",
+        "description": "Getting the current user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User fetched successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "user"
+                      ],
+                      "properties": {
+                        "user": {
+                          "type": "object",
+                          "$ref": "#/components/schemas/user"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/count": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Count user",
+        "operationId": "countUser",
+        "description": "Number of users",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Count user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User fetched successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "users"
+                      ],
+                      "properties": {
+                        "users": {
+                          "description": "Number of users",
+                          "type": "integer",
+                          "example": 16
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -104,46 +873,81 @@
         "scheme": "bearer"
       }
     },
-    "schemas": {
-      "user": {
-        "type": "object",
-        "required": [
-          "_id",
-          "name",
-          "email",
-          "createdAt",
-          "updatedAt"
-        ],
-        "properties": {
-          "_id": {
-            "description": "User's id",
-            "type": "string",
-            "example": "65e4decdd286b30065d54af9"
-          },
-          "name": {
-            "description": "User's name",
-            "type": "string",
-            "example": "Peter Pavlov"
-          },
-          "email": {
-            "description": "User's email",
-            "type": "string",
-            "example": "peter12@example.com"
-          },
-          "createdAt": {
-            "description": "Creation date",
-            "type": "string",
-            "example": "2025-01-11T19:54:04.483Z"
-          },
-          "updatedAt": {
-            "description": "Update date",
-            "type": "string",
-            "example": "2025-01-11T19:54:04.483Z"
+    "responses": {
+      "401": {
+        "description": "Unauthorized error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthorized error"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized error"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
-      }
-    },
-    "responses": {
+      },
+      "404": {
+        "description": "User not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "User not found"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "409": {
         "description": "Email in use",
         "content": {
@@ -178,6 +982,114 @@
                 }
               }
             }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "user": {
+        "required": [
+          "_id",
+          "name",
+          "email",
+          "avatarURL",
+          "gender",
+          "weight",
+          "activityTime",
+          "desiredVolume",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "_id": {
+            "description": "User's id",
+            "type": "string",
+            "example": "65e4decdd286b30065d54af9"
+          },
+          "name": {
+            "description": "User's name",
+            "type": "string",
+            "example": "Peter Pavlov"
+          },
+          "email": {
+            "description": "User's email",
+            "type": "string",
+            "example": "peter12@example.com"
+          },
+          "avatarURL": {
+            "description": "Link to user's photo",
+            "type": "string",
+            "format": "binary"
+          },
+          "gender": {
+            "description": "Choose gender",
+            "type": "string",
+            "enum": [
+              "woman",
+              "man"
+            ]
+          },
+          "weight": {
+            "description": "User`s weight",
+            "type": "number",
+            "example": 60
+          },
+          "activityTime": {
+            "description": "User active time",
+            "type": "number",
+            "example": 2
+          },
+          "desiredVolume": {
+            "description": "Desired water volume",
+            "type": "number",
+            "example": 1.5
+          },
+          "createdAt": {
+            "description": "Creation date",
+            "type": "string",
+            "example": "2025-01-11T19:54:04.483Z"
+          },
+          "updatedAt": {
+            "description": "Update date",
+            "type": "string",
+            "example": "2025-01-11T19:54:04.483Z"
           }
         }
       }
