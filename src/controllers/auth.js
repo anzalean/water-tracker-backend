@@ -58,6 +58,7 @@ export const loginUserController = async (req, res) => {
         userId: user._id,
         email: user.email,
         name: user.name || user.email.split('@')[0], 
+        gender: user.gender, 
         avatarURL: user.avatarURL,
         desiredVolume: user.desiredVolume,
         weight: user.weight,
