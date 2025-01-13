@@ -29,7 +29,7 @@ properties:
   gender:
     description: Choose gender
     type: string
-    enum: ['woman', 'man']
+    enum: ['female', 'male']
   weight:
     description: User`s weight
     type: number
