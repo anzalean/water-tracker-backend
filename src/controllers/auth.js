@@ -54,8 +54,16 @@ export const loginUserController = async (req, res) => {
     status: 200,
     message: 'Successfully logged in an user!',
     data: {
-      userId: user._id,
-      email: user.email,
+      user: {
+        userId: user._id,
+        email: user.email,
+        name: user.name || user.email.split('@')[0], 
+        gender: user.gender, 
+        avatarURL: user.avatarURL,
+        desiredVolume: user.desiredVolume,
+        weight: user.weight,
+        activityTime: user.activityTime,
+      },
       accessToken: session.accessToken,
     },
   });
@@ -185,7 +193,10 @@ export const getCurrentUserController = async (req, res) => {
   res.json({
     status: 200,
     message: 'User fetched successfully',
-    data: { user },
+    user: {
+      ...user.toJSON(),
+      name: user.name || user.email.split('@')[0], 
+    },
   });
 };
 
