@@ -15,6 +15,8 @@ tags:
 servers:
   - url: http://127.0.0.1:3000
     description: Development server
+  - url: https://water-tracker-backend-guwj.onrender.com
+    description: Production server
 paths:
   /auth/register:
     post:
@@ -29,7 +31,7 @@ paths:
     post:
       $ref: ../swagger/path/auth/refresh.yaml
   /auth/update-user:
-    post:
+    patch:
       $ref: ../swagger/path/auth/update-user.yaml
   /auth/get-oauth-url:
     get:

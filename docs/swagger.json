@@ -13,6 +13,10 @@
     {
       "url": "http://127.0.0.1:3000",
       "description": "Development server"
+    },
+    {
+      "url": "https://water-tracker-backend-guwj.onrender.com",
+      "description": "Prodaction server"
     }
   ],
   "tags": [
@@ -321,7 +325,7 @@
       }
     },
     "/auth/update-user": {
-      "post": {
+      "patch": {
         "tags": [
           "Auth"
         ],
@@ -1143,9 +1147,6 @@
           "401": {
             "$ref": "#/components/responses/401"
           },
-          "404": {
-            "$ref": "#/components/responses/404-2"
-          },
           "500": {
             "$ref": "#/components/responses/500"
           }
@@ -1675,8 +1676,8 @@
             "description": "Choose gender",
             "type": "string",
             "enum": [
-              "woman",
-              "man"
+              "female",
+              "male"
             ]
           },
           "weight": {
