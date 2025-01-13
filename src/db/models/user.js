@@ -19,9 +19,9 @@ const userSchema = new Schema(
       type: String,
     },
     gender: {
-      type: String || null,
-      enum: ['Man', 'Woman'],
-      default: null,
+      type: String,
+      enum: ['male', 'female'],
+      default: 'female',
     },
     weight: {
       type: Number,
