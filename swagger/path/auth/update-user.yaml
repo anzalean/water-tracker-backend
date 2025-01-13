@@ -15,6 +15,8 @@ requestBody:
           email:
             description: User's email
             type: string
+            minLength: 5
+            maxLength: 50
             example: peter12@example.com
           avatarURL:
             description: Link to user's photo
@@ -39,6 +41,8 @@ requestBody:
           desiredVolume:
             description: Desired water volume
             type: number
+            minimum: 50
+            maximum: 5000
             example: 50
 responses:
   '200':

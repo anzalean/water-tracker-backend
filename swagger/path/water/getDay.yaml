@@ -10,9 +10,10 @@ parameters:
     name: date
     required: true
     schema:
-      type: string
-      format: date-time
-      example: '65ca67e7ae7f10c88b598384'
+      type: integer
+      minimum: 1704060000000
+      description: Event date in Unix timestamp (milliseconds since epoch)
+      example: 1705000000000
 responses:
   '200':
     description: Total day water cards
@@ -34,18 +35,28 @@ responses:
             data:
               type: object
               required:
-                - totalDailyWaterAmount
-                - todayWaterCards
+                - date
+                - totalDayWater
+                - consumedWaterData
+                - owner
               properties:
-                totalDailyWaterAmount:
-                  description: Total daily water amount
+                date:
+                  type: string
+                  format: date-time
+                  example: 2023-12-31T22:00:00.500Z
+                totalDayWater:
+                  description: Total day water cards
                   type: number
                   example: 5
-                todayWaterCards:
+                consumedWaterData:
                   description: Cards per day
                   type: array
                   items:
                     $ref: ../../components/schemas/water.yaml
+                owner:
+                  description: User id
+                  type: string
+                  example: 677abe02f27bdbf2cc19d845
   '401' :
     $ref: '../../components/responses/water/401.yaml'
   '404' :

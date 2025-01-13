@@ -16,7 +16,7 @@
     },
     {
       "url": "https://water-tracker-backend-guwj.onrender.com",
-      "description": "Prodaction server"
+      "description": "Production server"
     }
   ],
   "tags": [
@@ -52,11 +52,14 @@
                   "email": {
                     "description": "User's email",
                     "type": "string",
+                    "minLength": 5,
+                    "maxLength": 50,
                     "example": "peter12@example.com"
                   },
                   "password": {
                     "description": "User's password",
                     "type": "string",
+                    "minLength": 6,
                     "example": "Asdf1234"
                   }
                 }
@@ -143,11 +146,14 @@
                   "email": {
                     "description": "User's email",
                     "type": "string",
+                    "minLength": 5,
+                    "maxLength": 50,
                     "example": "peter12@example.com"
                   },
                   "password": {
                     "description": "User's password",
                     "type": "string",
+                    "minLength": 6,
                     "example": "Asdf1234"
                   }
                 }
@@ -347,6 +353,8 @@
                   "email": {
                     "description": "User's email",
                     "type": "string",
+                    "minLength": 5,
+                    "maxLength": 50,
                     "example": "peter12@example.com"
                   },
                   "avatarURL": {
@@ -380,6 +388,8 @@
                   "desiredVolume": {
                     "description": "Desired water volume",
                     "type": "number",
+                    "minimum": 50,
+                    "maximum": 5000,
                     "example": 50
                   }
                 }
@@ -510,9 +520,9 @@
                 ],
                 "properties": {
                   "code": {
-                    "description": "Token",
+                    "description": "Code with Google OAuth url",
                     "type": "string",
-                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzgyY2I4ODQ4MDlhNjFhYjk2YzQyOGYiLCJlbWFpbCI6ImdvY2hha2luZHJAdWtyLm5ldCIsImlhdCI6MTczNjY0MzQyMiwiZXhwIjoxNzM2NjQzNzIyfQ.1qKbcPj7mv6vNp0DzO_qSzRBFD1Boa5nBIKkopjAQMc"
+                    "example": "eyJzdWIiOiI2NzgyY2I4ODQ4MDlhNjFhYjk2YzQyOGYiLCJlbWFpbCI6ImdvY2hha2luZHJAdWtyLm5ldCIsImlhdCI6MTczNjY0MzQyMiwiZXhwIjoxNzM2NjQzNzIyfQ"
                   }
                 }
               }
@@ -593,6 +603,8 @@
                   "email": {
                     "description": "User's email",
                     "type": "string",
+                    "minLength": 5,
+                    "maxLength": 50,
                     "example": "peter12@example.com"
                   }
                 }
@@ -639,100 +651,6 @@
         }
       }
     },
-    "/auth/reset-password": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Token validation",
-        "operationId": "validToken",
-        "description": "Token validation",
-        "security": [],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "token",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Token validation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Token is valid"
-                    },
-                    "data": {
-                      "type": "object",
-                      "required": [
-                        "decodedToken"
-                      ],
-                      "properties": {
-                        "decodedToken": {
-                          "type": "object",
-                          "required": [
-                            "sub",
-                            "email",
-                            "iat",
-                            "exp"
-                          ],
-                          "properties": {
-                            "sub": {
-                              "description": "User`s id",
-                              "type": "string",
-                              "example": "6783d4011c9216e73812660b"
-                            },
-                            "email": {
-                              "description": "User`s email",
-                              "type": "string",
-                              "example": "peter12@gmail.com"
-                            },
-                            "iat": {
-                              "description": "Token creation time",
-                              "type": "number",
-                              "example": 1736724577
-                            },
-                            "exp": {
-                              "description": "Token expiration time",
-                              "type": "number",
-                              "example": 1736724877
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
     "/auth/reset-pwd": {
       "post": {
         "tags": [
@@ -753,13 +671,14 @@
                 ],
                 "properties": {
                   "token": {
-                    "description": "Token",
+                    "description": "Token from email link",
                     "type": "string",
-                    "example": "NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh"
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzgzZDQwMTFjOTIxNmU3MzgxMjY2MGIiLCJlbWFpbCI6ImdvY2hha2luZHJAdWtyLm5ldCIsImlhdCI6MTczNjgxMDkzOCwiZXhwIjoxNzM2ODExMjM4fQ.oJdwYW0yY2OOMhIo2HvNsr3RVvFMRrFZO2lw3tJnBGI"
                   },
                   "password": {
                     "description": "User's password",
                     "type": "string",
+                    "minLength": 6,
                     "example": "Asdf1234"
                   }
                 }
@@ -950,14 +869,16 @@
                 ],
                 "properties": {
                   "date": {
-                    "description": "Water card creation date",
-                    "type": "string",
-                    "format": "date-time",
-                    "example": "2025-01-05T17:20:38.936"
+                    "type": "integer",
+                    "minimum": 1704060000000,
+                    "description": "Event date in Unix timestamp (milliseconds since epoch)",
+                    "example": 1705000000000
                   },
                   "amount": {
                     "description": "Amount of water",
                     "type": "number",
+                    "minimum": 50,
+                    "maximum": 5000,
                     "example": 50
                   }
                 }
@@ -1042,14 +963,16 @@
                 ],
                 "properties": {
                   "date": {
-                    "description": "Water card edition date",
-                    "type": "string",
-                    "format": "date-time",
-                    "example": "2025-01-05T17:20:38.936"
+                    "type": "integer",
+                    "minimum": 1704060000000,
+                    "description": "Event date in Unix timestamp (milliseconds since epoch)",
+                    "example": 1705000000000
                   },
                   "amount": {
                     "description": "Amount of water",
                     "type": "number",
+                    "minimum": 50,
+                    "maximum": 5000,
                     "example": 50
                   }
                 }
@@ -1172,9 +1095,10 @@
             "name": "date",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "date-time",
-              "example": "65ca67e7ae7f10c88b598384"
+              "type": "integer",
+              "minimum": 1704060000000,
+              "description": "Event date in Unix timestamp (milliseconds since epoch)",
+              "example": 1705000000000
             }
           }
         ],
@@ -1202,21 +1126,33 @@
                     "data": {
                       "type": "object",
                       "required": [
-                        "totalDailyWaterAmount",
-                        "todayWaterCards"
+                        "date",
+                        "totalDayWater",
+                        "consumedWaterData",
+                        "owner"
                       ],
                       "properties": {
-                        "totalDailyWaterAmount": {
-                          "description": "Total daily water amount",
+                        "date": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-12-31T22:00:00.500Z"
+                        },
+                        "totalDayWater": {
+                          "description": "Total day water cards",
                           "type": "number",
                           "example": 5
                         },
-                        "todayWaterCards": {
+                        "consumedWaterData": {
                           "description": "Cards per day",
                           "type": "array",
                           "items": {
                             "$ref": "#/components/schemas/water"
                           }
+                        },
+                        "owner": {
+                          "description": "User id",
+                          "type": "string",
+                          "example": "677abe02f27bdbf2cc19d845"
                         }
                       }
                     }
@@ -1256,9 +1192,10 @@
             "name": "date",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "date-time",
-              "example": "65ca67e7ae7f10c88b598384"
+              "type": "integer",
+              "minimum": 1704060000000,
+              "description": "Event date in Unix timestamp (milliseconds since epoch)",
+              "example": 1705000000000
             }
           }
         ],
@@ -1284,108 +1221,10 @@
                       "example": "Total month water cards"
                     },
                     "data": {
-                      "type": "object",
-                      "required": [
-                        "totalMonthWaterAmount",
-                        "monthWaterCards"
-                      ],
-                      "properties": {
-                        "totalMonthWaterAmount": {
-                          "description": "Total daily water amount",
-                          "type": "number",
-                          "example": 5
-                        },
-                        "monthWaterCards": {
-                          "description": "Cards per month",
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/components/schemas/water"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "404": {
-            "$ref": "#/components/responses/404-2"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
-    "/water/today": {
-      "get": {
-        "tags": [
-          "Water"
-        ],
-        "summary": "Day cards",
-        "operationId": "todayCard",
-        "description": "Total today water cards",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "date",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "date-time",
-              "example": "65ca67e7ae7f10c88b598384"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Total today water cards",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Total today water cards"
-                    },
-                    "data": {
-                      "type": "object",
-                      "required": [
-                        "totalDailyWaterAmount",
-                        "todayWaterCards"
-                      ],
-                      "properties": {
-                        "totalDailyWaterAmount": {
-                          "description": "Total daily water amount",
-                          "type": "number",
-                          "example": 5
-                        },
-                        "todayWaterCards": {
-                          "description": "Cards per today",
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/components/schemas/water"
-                          }
-                        }
+                      "description": "Cards per month",
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/water"
                       }
                     }
                   }
@@ -1693,7 +1532,7 @@
           "desiredVolume": {
             "description": "Desired water volume",
             "type": "number",
-            "example": 1.5
+            "example": 1500
           },
           "createdAt": {
             "description": "Creation date",
@@ -1716,11 +1555,10 @@
         ],
         "properties": {
           "date": {
-            "description": "Water card creation date",
-            "type": "string",
-            "format": "date-time",
-            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z$",
-            "example": "2025-01-05T17:14"
+            "type": "integer",
+            "minimum": 1704060000000,
+            "description": "Event date in Unix timestamp (milliseconds since epoch)",
+            "example": 1705000000000
           },
           "amount": {
             "description": "Amount of water",

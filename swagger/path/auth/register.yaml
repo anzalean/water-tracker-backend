@@ -16,10 +16,13 @@ requestBody:
           email:
             description: User's email
             type: string
+            minLength: 5
+            maxLength: 50
             example: peter12@example.com
           password:
             description: User's password
             type: string
+            minLength: 6
             example: Asdf1234
 responses:
   '201':

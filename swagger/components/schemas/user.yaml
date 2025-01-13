@@ -41,7 +41,7 @@ properties:
   desiredVolume:
     description: Desired water volume
     type: number
-    example: 1.5
+    example: 1500
   createdAt:
     description: Creation date
     type: string

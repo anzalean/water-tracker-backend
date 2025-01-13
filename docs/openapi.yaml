@@ -42,9 +42,6 @@ paths:
   /auth/send-reset-email:
     post:
       $ref: ../swagger/path/auth/sendResetEmail.yaml
-  /auth/reset-password:
-    get:
-      $ref: ../swagger/path/auth/reset-password.yaml
   /auth/reset-pwd:
     post:
       $ref: ../swagger/path/auth/resetPwd.yaml
@@ -68,9 +65,6 @@ paths:
   /water/month:
     get:
       $ref: ../swagger/path/water/getMonth.yaml
-  /water/today:
-    get:
-      $ref: ../swagger/path/water/getToday.yaml
 components:
   securitySchemes:
     bearerAuth:

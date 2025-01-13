@@ -22,13 +22,15 @@ requestBody:
           - amount
         properties:
           date:
-            description: Water card edition date
-            type: string
-            format: date-time
-            example: 2025-01-05T17:20:38.936
+            type: integer
+            minimum: 1704060000000
+            description: Event date in Unix timestamp (milliseconds since epoch)
+            example: 1705000000000
           amount:
             description: Amount of water
             type: number
+            minimum: 50
+            maximum: 5000
             example: 50
 responses:
   '201':
