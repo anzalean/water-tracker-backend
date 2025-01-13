@@ -51,7 +51,7 @@ export async function deleteWaterCardController(req, res) {
   if (!result) {
     throw createHttpError(404, 'Contact not found');
   }
-  res.status(204).send();
+  res.status(204).send({status: 204});
 }
 
 export async function getDayWaterContoller(req, res) {
