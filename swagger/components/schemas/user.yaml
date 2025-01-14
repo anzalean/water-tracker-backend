@@ -1,3 +1,4 @@
+type: object
 required:
   - _id
   - name
@@ -42,11 +43,13 @@ properties:
     description: Desired water volume
     type: number
     example: 1.5
+    minimum: 50
+    maximum: 5000
   createdAt:
     description: Creation date
     type: string
-    example: 2025-01-11T19:54:04.483Z
+    example: '2025-01-11T19:54:04.483Z'
   updatedAt:
     description: Update date
     type: string
-    example: 2025-01-11T19:54:04.483Z
+    example: '2025-01-11T19:54:04.483Z'

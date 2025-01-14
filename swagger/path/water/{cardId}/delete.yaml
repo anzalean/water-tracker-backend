@@ -7,7 +7,7 @@ security:
   - bearerAuth: []
 parameters:
   - in: path
-    name: id
+    name: cardId
     required: true
     schema:
       type: string
@@ -25,7 +25,7 @@ responses:
             status:
               type: integer
               example: 204
-  '401' :
-    $ref: '../../../components/responses/water/401.yaml'
+  '401':
+    $ref: ../../../components/responses/401.yaml
   '500':
-    $ref: '../../../components/responses/500.yaml'
+    $ref: ../../../components/responses/500.yaml

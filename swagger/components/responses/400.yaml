@@ -1,4 +1,4 @@
-description: Bad request
+description: Bad Request Error
 content:
   application/json:
     schema:
@@ -13,12 +13,10 @@ content:
           example: 400
         message:
           type: string
-          example: Bad request
+          example: Bad Request Error
         data:
           type: object
-          required:
-            - message
           properties:
             message:
               type: string
-              example:  Bad request
+              example: The request could not be understood by the server due to malformed syntax

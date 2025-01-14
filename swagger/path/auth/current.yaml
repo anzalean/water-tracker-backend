@@ -23,15 +23,10 @@ responses:
             message:
               type: string
               example: User fetched successfully
-            data:
+            user:
               type: object
-              required:
-                - user
-              properties:
-                user:
-                  type: object
-                  $ref: ../../components/schemas/user.yaml
+              $ref: ../../components/schemas/user.yaml
   '400':
-    $ref: '../../components/responses/auth/400.yaml'
+    $ref: ../../components/responses/400.yaml
   '500':
-    $ref: '../../components/responses/500.yaml'
+    $ref: ../../components/responses/500.yaml

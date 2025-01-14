@@ -20,6 +20,8 @@ requestBody:
           password:
             description: User's password
             type: string
+            minLength: 8
+            maxLength: 50
             example: Asdf1234
 responses:
   '201':
@@ -53,9 +55,9 @@ responses:
                   description: User`s email
                   type: string
                   example: peter12@example.com
-  '400' :
-    $ref: '../../components/responses/auth/400.yaml'
-  '409' :
-    $ref: '../../components/responses/auth/409.yaml'
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '409':
+    $ref: ../../components/responses/409.yaml
   '500':
-    $ref: '../../components/responses/500.yaml'
+    $ref: ../../components/responses/500.yaml

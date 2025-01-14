@@ -1,8 +1,8 @@
 tags:
   - Auth
 summary: Reset password
-operationId: resetEmail
-description: Password reset via email
+operationId: resetPassword
+description: Reset password
 security: []
 requestBody:
   content:
@@ -10,15 +10,20 @@ requestBody:
       schema:
         type: object
         required:
-          - email
+          - token
+          - password
         properties:
-          email:
-            description: User's email
+          token:
+            description: Token
             type: string
-            example: peter12@example.com
+            example: NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh
+          password:
+            description: User's password
+            type: string
+            example: Asdf1234
 responses:
   '200':
-    description: Password reset via email
+    description: Reset password
     content:
       application/json:
         schema:
@@ -33,11 +38,13 @@ responses:
               example: 200
             message:
               type: string
-              example: Reset password email was successfully sent!
+              example: Password was successfully reset!
             data:
               type: object
               example: {}
-  '400':
-    $ref: '../../components/responses/auth/400.yaml'
+  '401':
+    $ref: ../../components/responses/401.yaml
+  '404':
+    $ref: ../../components/responses/404.yaml
   '500':
-    $ref: '../../components/responses/500.yaml'
+    $ref: ../../components/responses/500.yaml

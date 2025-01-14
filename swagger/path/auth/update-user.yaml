@@ -23,6 +23,8 @@ requestBody:
           name:
             description: User`s name
             type: string
+            minLength: 3
+            maxLength: 20
             example: Peter Pavlov
           gender:
             description: Choose gender
@@ -39,6 +41,8 @@ requestBody:
           desiredVolume:
             description: Desired water volume
             type: number
+            minLength: 50
+            maxLength: 5000
             example: 50
 responses:
   '200':
@@ -67,7 +71,6 @@ responses:
                   type: object
                   $ref: ../../components/schemas/user.yaml
   '404':
-    $ref: '../../components/responses/auth/404.yaml'
+    $ref: ../../components/responses/404.yaml
   '500':
-    $ref: '../../components/responses/500.yaml'
-
+    $ref: ../../components/responses/500.yaml

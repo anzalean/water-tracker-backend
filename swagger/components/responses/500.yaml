@@ -16,8 +16,6 @@ content:
           example: Internal server error
         data:
           type: object
-          required:
-            - message
           properties:
             message:
               type: string

@@ -30,8 +30,9 @@ responses:
                 url:
                   description: Google OAuth url
                   type: string
-                  format: binary
+                  format: uri
+                  example: https://accounts.google.com/o/oauth2/auth
   '400':
-    $ref: '../../components/responses/auth/400.yaml'
+    $ref: ../../components/responses/400.yaml
   '500':
-    $ref: '../../components/responses/500.yaml'
+    $ref: ../../components/responses/500.yaml

@@ -36,8 +36,8 @@ responses:
                   type: string
                   example: NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh
   '401':
-    $ref: '../../components/responses/auth/401.yaml'
+    $ref: ../../components/responses/401.yaml
   '404':
-    $ref: '../../components/responses/auth/404.yaml'
+    $ref: ../../components/responses/404.yaml
   '500':
-    $ref: '../../components/responses/500.yaml'
+    $ref: ../../components/responses/500.yaml

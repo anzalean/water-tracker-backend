@@ -16,7 +16,7 @@
     },
     {
       "url": "https://water-tracker-backend-guwj.onrender.com",
-      "description": "Prodaction server"
+      "description": "Production server"
     }
   ],
   "tags": [
@@ -26,7 +26,7 @@
     },
     {
       "name": "Auth",
-      "description": "Auth operations."
+      "description": "Authentication and password reset operations."
     }
   ],
   "paths": {
@@ -179,20 +179,54 @@
                     "data": {
                       "type": "object",
                       "required": [
-                        "userId",
-                        "email",
+                        "user",
                         "accessToken"
                       ],
                       "properties": {
-                        "userId": {
-                          "description": "User`s id",
-                          "type": "string",
-                          "example": "678427d895056fd9ae40e7c0"
-                        },
-                        "email": {
-                          "description": "User`s email",
-                          "type": "string",
-                          "example": "peter12@example.com"
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "userId": {
+                              "description": "User`s id",
+                              "type": "string",
+                              "example": "678427d895056fd9ae40e7c0"
+                            },
+                            "email": {
+                              "description": "User`s email",
+                              "type": "string",
+                              "example": "peter12@example.com"
+                            },
+                            "name": {
+                              "description": "User's name",
+                              "type": "string",
+                              "example": "Peter Pavlov"
+                            },
+                            "gender": {
+                              "description": "User's gender",
+                              "type": "string",
+                              "example": "male"
+                            },
+                            "avatarURL": {
+                              "description": "Link to user's photo",
+                              "type": "string",
+                              "example": "https://example.com/avatar.jpg"
+                            },
+                            "desiredVolume": {
+                              "description": "Desired water volume",
+                              "type": "number",
+                              "example": 1.5
+                            },
+                            "weight": {
+                              "description": "User's weight",
+                              "type": "number",
+                              "example": 60
+                            },
+                            "activityTime": {
+                              "description": "User's active time",
+                              "type": "number",
+                              "example": 2
+                            }
+                          }
                         },
                         "accessToken": {
                           "description": "AccessToken",
@@ -473,7 +507,8 @@
                         "url": {
                           "description": "Google OAuth url",
                           "type": "string",
-                          "format": "binary"
+                          "format": "uri",
+                          "example": "https://accounts.google.com/o/oauth2/auth"
                         }
                       }
                     }
@@ -639,100 +674,6 @@
         }
       }
     },
-    "/auth/reset-password": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Token validation",
-        "operationId": "validToken",
-        "description": "Token validation",
-        "security": [],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "token",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Token validation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Token is valid"
-                    },
-                    "data": {
-                      "type": "object",
-                      "required": [
-                        "decodedToken"
-                      ],
-                      "properties": {
-                        "decodedToken": {
-                          "type": "object",
-                          "required": [
-                            "sub",
-                            "email",
-                            "iat",
-                            "exp"
-                          ],
-                          "properties": {
-                            "sub": {
-                              "description": "User`s id",
-                              "type": "string",
-                              "example": "6783d4011c9216e73812660b"
-                            },
-                            "email": {
-                              "description": "User`s email",
-                              "type": "string",
-                              "example": "peter12@gmail.com"
-                            },
-                            "iat": {
-                              "description": "Token creation time",
-                              "type": "number",
-                              "example": 1736724577
-                            },
-                            "exp": {
-                              "description": "Token expiration time",
-                              "type": "number",
-                              "example": 1736724877
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
     "/auth/reset-pwd": {
       "post": {
         "tags": [
@@ -843,17 +784,9 @@
                       "type": "string",
                       "example": "User fetched successfully"
                     },
-                    "data": {
+                    "user": {
                       "type": "object",
-                      "required": [
-                        "user"
-                      ],
-                      "properties": {
-                        "user": {
-                          "type": "object",
-                          "$ref": "#/components/schemas/user"
-                        }
-                      }
+                      "$ref": "#/components/schemas/user"
                     }
                   }
                 }
@@ -874,7 +807,7 @@
         "tags": [
           "Auth"
         ],
-        "summary": "Count user",
+        "summary": "Counting user",
         "operationId": "countUser",
         "description": "Number of users",
         "security": [],
@@ -1007,7 +940,7 @@
         }
       }
     },
-    "/water/{id}": {
+    "/water/{cardId}": {
       "patch": {
         "tags": [
           "Water"
@@ -1023,7 +956,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "cardId",
             "required": true,
             "schema": {
               "type": "string",
@@ -1094,7 +1027,7 @@
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "$ref": "#/components/responses/404-2"
+            "$ref": "#/components/responses/404"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -1116,7 +1049,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "cardId",
             "required": true,
             "schema": {
               "type": "string",
@@ -1174,7 +1107,7 @@
             "schema": {
               "type": "string",
               "format": "date-time",
-              "example": "65ca67e7ae7f10c88b598384"
+              "example": "2025-01-12T00:00:00Z"
             }
           }
         ],
@@ -1229,7 +1162,7 @@
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "$ref": "#/components/responses/404-2"
+            "$ref": "#/components/responses/404"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -1258,7 +1191,7 @@
             "schema": {
               "type": "string",
               "format": "date-time",
-              "example": "65ca67e7ae7f10c88b598384"
+              "example": "2025-01-01T00:00:00Z"
             }
           }
         ],
@@ -1313,7 +1246,7 @@
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "$ref": "#/components/responses/404-2"
+            "$ref": "#/components/responses/404"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -1342,7 +1275,7 @@
             "schema": {
               "type": "string",
               "format": "date-time",
-              "example": "65ca67e7ae7f10c88b598384"
+              "example": "2025-01-12T00:00:00Z"
             }
           }
         ],
@@ -1397,7 +1330,7 @@
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "$ref": "#/components/responses/404-2"
+            "$ref": "#/components/responses/404"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -1415,7 +1348,7 @@
     },
     "responses": {
       "400": {
-        "description": "Bad request",
+        "description": "Bad Request Error",
         "content": {
           "application/json": {
             "schema": {
@@ -1432,17 +1365,14 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Bad request"
+                  "example": "Bad Request Error"
                 },
                 "data": {
                   "type": "object",
-                  "required": [
-                    "message"
-                  ],
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Bad request"
+                      "example": "The request could not be understood by the server due to malformed syntax"
                     }
                   }
                 }
@@ -1473,13 +1403,10 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": [
-                    "message"
-                  ],
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Unauthorized error"
+                      "example": "Access token not provided"
                     }
                   }
                 }
@@ -1489,7 +1416,7 @@
         }
       },
       "404": {
-        "description": "User not found",
+        "description": "Not Found Error",
         "content": {
           "application/json": {
             "schema": {
@@ -1506,17 +1433,14 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "User not found"
+                  "example": "Not Found Error"
                 },
                 "data": {
                   "type": "object",
-                  "required": [
-                    "message"
-                  ],
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "User not found!"
+                      "example": "The specified resource was not found!"
                     }
                   }
                 }
@@ -1547,9 +1471,6 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": [
-                    "message"
-                  ],
                   "properties": {
                     "message": {
                       "type": "string",
@@ -1584,9 +1505,6 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": [
-                    "message"
-                  ],
                   "properties": {
                     "message": {
                       "type": "string",
@@ -1598,47 +1516,11 @@
             }
           }
         }
-      },
-      "404-2": {
-        "description": "Card not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "status",
-                "message",
-                "data"
-              ],
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Card not found"
-                },
-                "data": {
-                  "type": "object",
-                  "required": [
-                    "message"
-                  ],
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Card not found!"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
       }
     },
     "schemas": {
       "user": {
+        "type": "object",
         "required": [
           "_id",
           "name",
@@ -1693,7 +1575,9 @@
           "desiredVolume": {
             "description": "Desired water volume",
             "type": "number",
-            "example": 1.5
+            "example": 1.5,
+            "minimum": 50,
+            "maximum": 5000
           },
           "createdAt": {
             "description": "Creation date",
@@ -1720,7 +1604,7 @@
             "type": "string",
             "format": "date-time",
             "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z$",
-            "example": "2025-01-05T17:14"
+            "example": "2025-01-05T17:14:00Z"
           },
           "amount": {
             "description": "Amount of water",

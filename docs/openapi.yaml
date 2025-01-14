@@ -5,13 +5,12 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description:
-    This is a documentation of water tracker
+  description: This is a documentation of water tracker
 tags:
   - name: Water
     description: Water usage data operations.
   - name: Auth
-    description: Auth operations.
+    description: Authentication and password reset operations.
 servers:
   - url: http://127.0.0.1:3000
     description: Development server
@@ -41,13 +40,10 @@ paths:
       $ref: ../swagger/path/auth/google-login.yaml
   /auth/send-reset-email:
     post:
-      $ref: ../swagger/path/auth/sendResetEmail.yaml
-  /auth/reset-password:
-    get:
-      $ref: ../swagger/path/auth/reset-password.yaml
+      $ref: ../swagger/path/auth/send-reset-email.yaml
   /auth/reset-pwd:
     post:
-      $ref: ../swagger/path/auth/resetPwd.yaml
+      $ref: ../swagger/path/auth/reset-pwd.yaml
   /auth/current:
     get:
       $ref: ../swagger/path/auth/current.yaml
@@ -57,20 +53,20 @@ paths:
   /water:
     post:
       $ref: ../swagger/path/water/post.yaml
-  /water/{id}:
+  /water/{cardId}:
     patch:
-      $ref: ../swagger/path/water/{id}/patch.yaml
+      $ref: ../swagger/path/water/{cardId}/patch.yaml
     delete:
-      $ref: ../swagger/path/water/{id}/delete.yaml
+      $ref: ../swagger/path/water/{cardId}/delete.yaml
   /water/day:
     get:
-      $ref: ../swagger/path/water/getDay.yaml
+      $ref: ../swagger/path/water/get-day.yaml
   /water/month:
     get:
-      $ref: ../swagger/path/water/getMonth.yaml
+      $ref: ../swagger/path/water/get-month.yaml
   /water/today:
     get:
-      $ref: ../swagger/path/water/getToday.yaml
+      $ref: ../swagger/path/water/get-today.yaml
 components:
   securitySchemes:
     bearerAuth:

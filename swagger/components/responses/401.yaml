@@ -1,4 +1,4 @@
-description: Bad request
+description: Unauthorized error
 content:
   application/json:
     schema:
@@ -10,15 +10,13 @@ content:
       properties:
         status:
           type: integer
-          example: 400
+          example: 401
         message:
           type: string
-          example: Bad request
+          example: Unauthorized error
         data:
           type: object
-          required:
-            - message
           properties:
             message:
               type: string
-              example:  Bad request
+              example: Access token not provided

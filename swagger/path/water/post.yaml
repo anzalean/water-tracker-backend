@@ -18,7 +18,7 @@ requestBody:
             description: Water card creation date
             type: string
             format: date-time
-            example: 2025-01-05T17:20:38.936
+            example: '2025-01-05T17:20:38.936'
           amount:
             description: Amount of water
             type: number
@@ -44,9 +44,9 @@ responses:
             data:
               type: object
               $ref: ../../components/schemas/water.yaml
-  '400' :
-    $ref: '../../components/responses/water/400.yaml'
-  '401' :
-    $ref: '../../components/responses/water/401.yaml'
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '401':
+    $ref: ../../components/responses/401.yaml
   '500':
-    $ref: '../../components/responses/500.yaml'
+    $ref: ../../components/responses/500.yaml

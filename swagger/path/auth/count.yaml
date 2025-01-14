@@ -1,6 +1,6 @@
 tags:
   - Auth
-summary: Count user
+summary: Counting user
 operationId: countUser
 description: Number of users
 security: []
@@ -32,6 +32,6 @@ responses:
                   type: integer
                   example: 16
   '400':
-    $ref: '../../components/responses/auth/400.yaml'
+    $ref: ../../components/responses/400.yaml
   '500':
-    $ref: '../../components/responses/500.yaml'
+    $ref: ../../components/responses/500.yaml
