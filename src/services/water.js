@@ -25,10 +25,7 @@ export const deleteWaterCardService = async (cardId, owner) => {
 
 export const getDayWaterService = expressAsyncHandler(async (req, res) => {
   const { _id: owner } = req.user;
-
   const date = new Date(+req.query.date);
-
-
   const userTimezoneOffset = req.user.timezoneOffset || 0;
 
   const startOfDay = new Date(date);
@@ -48,7 +45,7 @@ export const getDayWaterService = expressAsyncHandler(async (req, res) => {
     },
   });
 
-  if (!foundWaterDayData) {
+  if (!foundWaterDayData.length) {
     throw createHttpError(404, `Info for this day not found`);
   }
 
@@ -56,10 +53,16 @@ export const getDayWaterService = expressAsyncHandler(async (req, res) => {
     (acc, item) => acc + item.amount,
     0,
   );
+  const consumedWaterData = foundWaterDayData.map(item => ({
+    _id: item._id,
+    date: item.date,
+    amount: item.amount
+  }));
+
   return {
     date,
     totalDayWater,
-    consumedWaterData: foundWaterDayData,
+    consumedWaterData,
     owner,
   };
 });
