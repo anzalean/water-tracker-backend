@@ -15,7 +15,7 @@ responses:
           required:
             - status
             - message
-            - data
+            - user
           properties:
             status:
               type: integer
@@ -23,7 +23,7 @@ responses:
             message:
               type: string
               example: User fetched successfully
-            data:
+            user:
               type: object
               required:
                 - user

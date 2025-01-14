@@ -21,7 +21,7 @@ responses:
               example: 200
             message:
               type: string
-              example: Token updated
+              example: Successfully refreshed a session!
             data:
               type: object
               required:

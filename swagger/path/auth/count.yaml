@@ -21,7 +21,7 @@ responses:
               example: 200
             message:
               type: string
-              example: User fetched successfully
+              example: Number of customers successfully received on web-platform!
             data:
               type: object
               required:

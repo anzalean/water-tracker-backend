@@ -12,8 +12,8 @@ const userSchema = new Schema(
       required: [true, 'Password is required'],
     },
     avatarURL: {
-      type: String || null,
-      default: null,
+      type: String,
+      default: "https://res.cloudinary.com/dhufqulj5/image/upload/v1736796700/pvtpcewd72z3ixrwjo7n.png",
     },
     name: {
       type: String,
@@ -58,5 +58,14 @@ const userSchema = new Schema(
   },
   { versionKey: false, timestamps: true },
 );
+
+userSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.password;
+  delete obj.accessToken;
+  delete obj.refreshToken;
+  delete obj.verification;
+  return obj;
+};
 
 export const User = model('User', userSchema);

@@ -46,7 +46,8 @@ export async function registerUserService(payload) {
 
   const newUser = await User.create({
     ...payload,
-    password: hashedPassword
+    password: hashedPassword,
+     
   });
 
   return {
