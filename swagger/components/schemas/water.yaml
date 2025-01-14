@@ -2,7 +2,9 @@ required:
   - date
   - amount
   - owner
-  - id
+  - _id
+  - createdAt
+  - updatedAt
 properties:
   date:
     type: integer
@@ -17,6 +19,14 @@ properties:
     description: User id
     type: string
     example: 677abe02f27bdbf2cc19d845
-  id:
+  _id:
     type: string
     example: 6776a2cecf4ab2a20b383055
+  createdAt:
+    description: Creation date
+    type: string
+    example: 2025-01-11T19:54:04.483Z
+  updatedAt:
+    description: Update date
+    type: string
+    example: 2025-01-11T19:54:04.483Z

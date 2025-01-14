@@ -55,11 +55,11 @@ export async function deleteWaterCardController(req, res) {
 }
 
 export async function getDayWaterContoller(req, res) {
-
+  
   const result = await getDayWaterService(req, res);
   res.status(200).send({
     status: 200,
-    message: 'Total day water cards',
+    message: 'Daily water cards',
     data: result,
   });
 }

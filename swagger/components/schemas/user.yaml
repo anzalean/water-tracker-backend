@@ -1,5 +1,5 @@
 required:
-  - _id
+  - userid
   - name
   - email
   - avatarURL
@@ -10,7 +10,7 @@ required:
   - createdAt
   - updatedAt
 properties:
-  _id:
+  userid:
     description: User's id
     type: string
     example: 65e4decdd286b30065d54af9

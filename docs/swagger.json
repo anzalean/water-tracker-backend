@@ -180,25 +180,18 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "User successfully authenticated"
+                      "example": "Successfully logged in an user!"
                     },
                     "data": {
                       "type": "object",
                       "required": [
-                        "userId",
-                        "email",
+                        "user",
                         "accessToken"
                       ],
                       "properties": {
-                        "userId": {
-                          "description": "User`s id",
-                          "type": "string",
-                          "example": "678427d895056fd9ae40e7c0"
-                        },
-                        "email": {
-                          "description": "User`s email",
-                          "type": "string",
-                          "example": "peter12@example.com"
+                        "user": {
+                          "type": "object",
+                          "$ref": "#/components/schemas/user"
                         },
                         "accessToken": {
                           "description": "AccessToken",
@@ -293,7 +286,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Token updated"
+                      "example": "Successfully refreshed a session!"
                     },
                     "data": {
                       "type": "object",
@@ -751,7 +744,7 @@
                   "required": [
                     "status",
                     "message",
-                    "data"
+                    "user"
                   ],
                   "properties": {
                     "status": {
@@ -762,7 +755,7 @@
                       "type": "string",
                       "example": "User fetched successfully"
                     },
-                    "data": {
+                    "user": {
                       "type": "object",
                       "required": [
                         "user"
@@ -816,7 +809,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "User fetched successfully"
+                      "example": "Number of customers successfully received on web-platform!"
                     },
                     "data": {
                       "type": "object",
@@ -1128,31 +1121,48 @@
                       "required": [
                         "date",
                         "totalDayWater",
-                        "consumedWaterData",
-                        "owner"
+                        "consumedWaterData"
                       ],
                       "properties": {
                         "date": {
                           "type": "string",
                           "format": "date-time",
-                          "example": "2023-12-31T22:00:00.500Z"
+                          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z$",
+                          "example": "2025-01-05T17:14"
                         },
                         "totalDayWater": {
                           "description": "Total day water cards",
                           "type": "number",
-                          "example": 5
+                          "example": 50
                         },
                         "consumedWaterData": {
                           "description": "Cards per day",
                           "type": "array",
                           "items": {
-                            "$ref": "#/components/schemas/water"
+                            "type": "object",
+                            "required": [
+                              "date",
+                              "amount",
+                              "_id"
+                            ],
+                            "properties": {
+                              "date": {
+                                "type": "integer",
+                                "minimum": 1704060000000,
+                                "description": "Event date in Unix timestamp (milliseconds since epoch)",
+                                "example": 1705000000000
+                              },
+                              "amount": {
+                                "description": "Amount of water",
+                                "type": "number",
+                                "example": 50
+                              },
+                              "_id": {
+                                "type": "string",
+                                "example": "6776a2cecf4ab2a20b383055"
+                              }
+                            }
                           }
-                        },
-                        "owner": {
-                          "description": "User id",
-                          "type": "string",
-                          "example": "677abe02f27bdbf2cc19d845"
                         }
                       }
                     }
@@ -1224,7 +1234,24 @@
                       "description": "Cards per month",
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/water"
+                        "type": "object",
+                        "required": [
+                          "date",
+                          "totalDayWater"
+                        ],
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z$",
+                            "example": "2025-01-05T17:14"
+                          },
+                          "totalDayWater": {
+                            "description": "Total day water",
+                            "type": "number",
+                            "example": 50
+                          }
+                        }
                       }
                     }
                   }
@@ -1479,7 +1506,7 @@
     "schemas": {
       "user": {
         "required": [
-          "_id",
+          "userid",
           "name",
           "email",
           "avatarURL",
@@ -1491,7 +1518,7 @@
           "updatedAt"
         ],
         "properties": {
-          "_id": {
+          "userid": {
             "description": "User's id",
             "type": "string",
             "example": "65e4decdd286b30065d54af9"
@@ -1551,7 +1578,9 @@
           "date",
           "amount",
           "owner",
-          "id"
+          "_id",
+          "createdAt",
+          "updatedAt"
         ],
         "properties": {
           "date": {
@@ -1570,9 +1599,19 @@
             "type": "string",
             "example": "677abe02f27bdbf2cc19d845"
           },
-          "id": {
+          "_id": {
             "type": "string",
             "example": "6776a2cecf4ab2a20b383055"
+          },
+          "createdAt": {
+            "description": "Creation date",
+            "type": "string",
+            "example": "2025-01-11T19:54:04.483Z"
+          },
+          "updatedAt": {
+            "description": "Update date",
+            "type": "string",
+            "example": "2025-01-11T19:54:04.483Z"
           }
         }
       }

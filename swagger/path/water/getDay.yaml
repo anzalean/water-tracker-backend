@@ -52,7 +52,24 @@ responses:
                   description: Cards per day
                   type: array
                   items:
-                    $ref: ../../components/schemas/water.yaml
+                    type: object
+                    required:
+                      - date
+                      - amount
+                      - _id
+                    properties:
+                      date:
+                        type: integer
+                        minimum: 1704060000000
+                        description: Event date in Unix timestamp (milliseconds since epoch)
+                        example: 1705000000000
+                      amount:
+                        description: Amount of water
+                        type: number
+                        example: 50
+                      _id:
+                        type: string
+                        example: 6776a2cecf4ab2a20b383055
   '401' :
     $ref: '../../components/responses/water/401.yaml'
   '404' :
