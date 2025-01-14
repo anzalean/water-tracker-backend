@@ -17,7 +17,7 @@ export const updateUserSchema = Joi.object({
     gender: Joi.string().valid("male", "female").optional(),
     weight: Joi.number().min(0).optional(),
     activityTime: Joi.number().min(0).optional(),
-    desiredVolume: Joi.number().min(50).max(5000).optional(),
+    desiredVolume: Joi.number().min(0.05).max(5).optional(),
 });
 
 export const loginWithGoogleOAuthSchema = Joi.object({
