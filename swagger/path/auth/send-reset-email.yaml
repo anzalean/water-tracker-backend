@@ -1,8 +1,8 @@
 tags:
   - Auth
-summary: Reset password
+summary: Send reset email
 operationId: resetEmail
-description: Password reset via email
+description: Send an email to reset the password. This endpoint generates a token and sends an email to the user with a link to reset their password.
 security: []
 requestBody:
   content:
@@ -13,12 +13,12 @@ requestBody:
           - email
         properties:
           email:
-            description: User's email
+            description: User's email address for sending the reset password link.
             type: string
             example: peter12@example.com
 responses:
   '200':
-    description: Password reset via email
+    description: Successfully sent reset password email.
     content:
       application/json:
         schema:

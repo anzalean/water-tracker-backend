@@ -37,7 +37,7 @@
         ],
         "summary": "User registration",
         "operationId": "registerUser",
-        "description": "New user registration",
+        "description": "Register a new user. This endpoint creates a new user account with the provided email and password.",
         "security": [],
         "requestBody": {
           "content": {
@@ -50,13 +50,15 @@
                 ],
                 "properties": {
                   "email": {
-                    "description": "User's email",
+                    "description": "The email address of the user to register.",
                     "type": "string",
                     "example": "peter12@example.com"
                   },
                   "password": {
-                    "description": "User's password",
+                    "description": "The password for the new user account. Must be between 8 and 50 characters.",
                     "type": "string",
+                    "minLength": 8,
+                    "maxLength": 50,
                     "example": "Asdf1234"
                   }
                 }
@@ -66,7 +68,7 @@
         },
         "responses": {
           "201": {
-            "description": "User registration",
+            "description": "Successfully registered a new user.",
             "content": {
               "application/json": {
                 "schema": {
@@ -93,12 +95,12 @@
                       ],
                       "properties": {
                         "userId": {
-                          "description": "User`s id",
+                          "description": "The unique identifier of the registered user.",
                           "type": "string",
                           "example": "678427d895056fd9ae40e7c0"
                         },
                         "email": {
-                          "description": "User`s email",
+                          "description": "The email address of the registered user.",
                           "type": "string",
                           "example": "peter12@example.com"
                         }
@@ -126,9 +128,9 @@
         "tags": [
           "Auth"
         ],
-        "summary": "User authentication",
+        "summary": "User login",
         "operationId": "loginUser",
-        "description": "User authentication",
+        "description": "Authenticate a user and issue a new access token. This endpoint verifies the user's credentials and returns a token used for subsequent authenticated requests.",
         "security": [],
         "requestBody": {
           "content": {
@@ -141,12 +143,12 @@
                 ],
                 "properties": {
                   "email": {
-                    "description": "User's email",
+                    "description": "The email address of the user logging in.",
                     "type": "string",
                     "example": "peter12@example.com"
                   },
                   "password": {
-                    "description": "User's password",
+                    "description": "The password of the user logging in.",
                     "type": "string",
                     "example": "Asdf1234"
                   }
@@ -157,7 +159,7 @@
         },
         "responses": {
           "200": {
-            "description": "User authentication",
+            "description": "Successfully authenticated the user and issued a new access token.",
             "content": {
               "application/json": {
                 "schema": {
@@ -187,49 +189,49 @@
                           "type": "object",
                           "properties": {
                             "userId": {
-                              "description": "User`s id",
+                              "description": "The unique identifier of the authenticated user.",
                               "type": "string",
                               "example": "678427d895056fd9ae40e7c0"
                             },
                             "email": {
-                              "description": "User`s email",
+                              "description": "The email address of the authenticated user.",
                               "type": "string",
                               "example": "peter12@example.com"
                             },
                             "name": {
-                              "description": "User's name",
+                              "description": "The name of the authenticated user.",
                               "type": "string",
                               "example": "Peter Pavlov"
                             },
                             "gender": {
-                              "description": "User's gender",
+                              "description": "The gender of the authenticated user.",
                               "type": "string",
                               "example": "male"
                             },
                             "avatarURL": {
-                              "description": "Link to user's photo",
+                              "description": "The URL to the user's avatar.",
                               "type": "string",
                               "example": "https://example.com/avatar.jpg"
                             },
                             "desiredVolume": {
-                              "description": "Desired water volume",
+                              "description": "The desired water volume of the user.",
                               "type": "number",
                               "example": 1.5
                             },
                             "weight": {
-                              "description": "User's weight",
+                              "description": "The weight of the user.",
                               "type": "number",
                               "example": 60
                             },
                             "activityTime": {
-                              "description": "User's active time",
+                              "description": "The active time of the user.",
                               "type": "number",
                               "example": 2
                             }
                           }
                         },
                         "accessToken": {
-                          "description": "AccessToken",
+                          "description": "The access token for the authenticated user.",
                           "type": "string",
                           "example": "NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh"
                         }
@@ -262,11 +264,11 @@
         ],
         "summary": "User logout",
         "operationId": "logoutUser",
-        "description": "User logout",
+        "description": "Log out the authenticated user. This endpoint invalidates the current access token and terminates the user's session. The user must provide a valid access token in the `Authorization` header to successfully log out.",
         "security": [],
         "responses": {
           "204": {
-            "description": "User logout",
+            "description": "Successfully logged out the user and terminated the session.",
             "content": {
               "application/json": {
                 "schema": {
@@ -293,71 +295,6 @@
         }
       }
     },
-    "/auth/refresh": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Refresh token",
-        "operationId": "refreshToken",
-        "description": "User token refresh",
-        "security": [],
-        "responses": {
-          "200": {
-            "description": "User token refresh",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Token updated"
-                    },
-                    "data": {
-                      "type": "object",
-                      "required": [
-                        "userId",
-                        "accessToken"
-                      ],
-                      "properties": {
-                        "userId": {
-                          "description": "User`s id",
-                          "type": "string",
-                          "example": "678427d895056fd9ae40e7c0"
-                        },
-                        "accessToken": {
-                          "type": "string",
-                          "example": "NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
     "/auth/update-user": {
       "patch": {
         "tags": [
@@ -365,7 +302,7 @@
         ],
         "summary": "Update user",
         "operationId": "updateUser",
-        "description": "Updating and adding user data",
+        "description": "Update and add user data. This endpoint allows the authenticated user to update their profile information such as email, avatar, name, gender, weight, activity time, and desired water volume. The user must provide a valid access token in the `Authorization` header.",
         "security": [
           {
             "bearerAuth": []
@@ -379,22 +316,24 @@
                 "required": [],
                 "properties": {
                   "email": {
-                    "description": "User's email",
+                    "description": "The email address of the user.",
                     "type": "string",
                     "example": "peter12@example.com"
                   },
                   "avatarURL": {
-                    "description": "Link to user's photo",
+                    "description": "The link to the user's photo. This can be a binary file.",
                     "type": "string",
                     "format": "binary"
                   },
                   "name": {
-                    "description": "User`s name",
+                    "description": "The name of the user. Must be between 3 and 20 characters.",
                     "type": "string",
+                    "minLength": 3,
+                    "maxLength": 20,
                     "example": "Peter Pavlov"
                   },
                   "gender": {
-                    "description": "Choose gender",
+                    "description": "The gender of the user.",
                     "type": "string",
                     "enum": [
                       "female",
@@ -402,18 +341,20 @@
                     ]
                   },
                   "weight": {
-                    "description": "User`s weight",
+                    "description": "The weight of the user.",
                     "type": "number",
                     "example": 60
                   },
                   "activityTime": {
-                    "description": "User active time",
+                    "description": "The active time of the user, in hours per day.",
                     "type": "number",
                     "example": 2
                   },
                   "desiredVolume": {
-                    "description": "Desired water volume",
+                    "description": "The desired water volume for the user, in milliliters per day. Must be between 50 and 5000 ml.",
                     "type": "number",
+                    "minLength": 50,
+                    "maxLength": 5000,
                     "example": 50
                   }
                 }
@@ -423,7 +364,7 @@
         },
         "responses": {
           "200": {
-            "description": "update user",
+            "description": "Successfully updated the user.",
             "content": {
               "application/json": {
                 "schema": {
@@ -468,64 +409,6 @@
         }
       }
     },
-    "/auth/get-oauth-url": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Get URL",
-        "operationId": "getURL",
-        "description": "Get Google OAuth URL",
-        "security": [],
-        "responses": {
-          "200": {
-            "description": "Google OAuth url",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Successfully get Google OAuth url"
-                    },
-                    "data": {
-                      "type": "object",
-                      "required": [
-                        "url"
-                      ],
-                      "properties": {
-                        "url": {
-                          "description": "Google OAuth url",
-                          "type": "string",
-                          "format": "uri",
-                          "example": "https://accounts.google.com/o/oauth2/auth"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
     "/auth/google-login": {
       "post": {
         "tags": [
@@ -533,7 +416,7 @@
         ],
         "summary": "Login via Google OAuth",
         "operationId": "googleLogin",
-        "description": "Login via Google OAuth",
+        "description": "Authenticate a user using Google OAuth. This endpoint verifies the token received from Google and logs the user in, issuing a new access token for subsequent authenticated requests.",
         "security": [],
         "requestBody": {
           "content": {
@@ -545,7 +428,7 @@
                 ],
                 "properties": {
                   "code": {
-                    "description": "Token",
+                    "description": "The authorization code received from Google after user login.",
                     "type": "string",
                     "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzgyY2I4ODQ4MDlhNjFhYjk2YzQyOGYiLCJlbWFpbCI6ImdvY2hha2luZHJAdWtyLm5ldCIsImlhdCI6MTczNjY0MzQyMiwiZXhwIjoxNzM2NjQzNzIyfQ.1qKbcPj7mv6vNp0DzO_qSzRBFD1Boa5nBIKkopjAQMc"
                   }
@@ -556,7 +439,7 @@
         },
         "responses": {
           "200": {
-            "description": "Login via Google OAuth",
+            "description": "Successfully logged in via Google OAuth and issued a new access token.",
             "content": {
               "application/json": {
                 "schema": {
@@ -583,7 +466,7 @@
                       ],
                       "properties": {
                         "accessToken": {
-                          "description": "AccessToken",
+                          "description": "The access token for the authenticated user.",
                           "type": "string",
                           "example": "NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh"
                         },
@@ -612,9 +495,9 @@
         "tags": [
           "Auth"
         ],
-        "summary": "Reset password",
+        "summary": "Send reset email",
         "operationId": "resetEmail",
-        "description": "Password reset via email",
+        "description": "Send an email to reset the password. This endpoint generates a token and sends an email to the user with a link to reset their password.",
         "security": [],
         "requestBody": {
           "content": {
@@ -626,7 +509,7 @@
                 ],
                 "properties": {
                   "email": {
-                    "description": "User's email",
+                    "description": "User's email address for sending the reset password link.",
                     "type": "string",
                     "example": "peter12@example.com"
                   }
@@ -637,7 +520,7 @@
         },
         "responses": {
           "200": {
-            "description": "Password reset via email",
+            "description": "Successfully sent reset password email.",
             "content": {
               "application/json": {
                 "schema": {
@@ -681,7 +564,7 @@
         ],
         "summary": "Reset password",
         "operationId": "resetPassword",
-        "description": "Reset password",
+        "description": "Reset the user's password. This endpoint allows a user to reset their password using a provided token. The user must provide a valid token and a new password. Upon successful reset, the user's password is updated.",
         "security": [],
         "requestBody": {
           "content": {
@@ -694,12 +577,14 @@
                 ],
                 "properties": {
                   "token": {
-                    "description": "Token",
+                    "description": "The token used to authorize the password reset. This token is typically received via email.",
                     "type": "string",
                     "example": "NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh"
                   },
                   "password": {
-                    "description": "User's password",
+                    "description": "The new password for the user. Must be between 8 and 50 characters.",
+                    "minLength": 8,
+                    "maxLength": 50,
                     "type": "string",
                     "example": "Asdf1234"
                   }
@@ -710,7 +595,7 @@
         },
         "responses": {
           "200": {
-            "description": "Reset password",
+            "description": "Successfully reset the user's password.",
             "content": {
               "application/json": {
                 "schema": {
@@ -750,123 +635,14 @@
         }
       }
     },
-    "/auth/current": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Current user",
-        "operationId": "currentUser",
-        "description": "Getting the current user",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Current user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "User fetched successfully"
-                    },
-                    "user": {
-                      "type": "object",
-                      "$ref": "#/components/schemas/user"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
-    "/auth/count": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Counting user",
-        "operationId": "countUser",
-        "description": "Number of users",
-        "security": [],
-        "responses": {
-          "200": {
-            "description": "Count user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "User fetched successfully"
-                    },
-                    "data": {
-                      "type": "object",
-                      "required": [
-                        "users"
-                      ],
-                      "properties": {
-                        "users": {
-                          "description": "Number of users",
-                          "type": "integer",
-                          "example": 16
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
     "/water": {
       "post": {
         "tags": [
           "Water"
         ],
-        "summary": "Water card",
+        "summary": "Create a water card",
         "operationId": "waterCard",
-        "description": "Create a water card",
+        "description": "Create a new water card entry. This endpoint allows the authenticated user to create a record of their water intake for a specific date and amount. The user must provide a valid access token in the `Authorization` header.",
         "security": [
           {
             "bearerAuth": []
@@ -883,13 +659,13 @@
                 ],
                 "properties": {
                   "date": {
-                    "description": "Water card creation date",
+                    "description": "The date and time when the water card is created. Must be in ISO 8601 format.",
                     "type": "string",
                     "format": "date-time",
                     "example": "2025-01-05T17:20:38.936"
                   },
                   "amount": {
-                    "description": "Amount of water",
+                    "description": "The amount of water consumed, in milliliters.",
                     "type": "number",
                     "example": 50
                   }
@@ -900,7 +676,7 @@
         },
         "responses": {
           "201": {
-            "description": "Create a water card",
+            "description": "Successfully created a water card entry.",
             "content": {
               "application/json": {
                 "schema": {
@@ -947,7 +723,7 @@
         ],
         "summary": "Editing a water map",
         "operationId": "editCard",
-        "description": "Editing a water map",
+        "description": "Edit an existing water card. This endpoint allows the authenticated user to update the details of a specific water card by providing the card's unique identifier and new data. The user must provide a valid access token in the `Authorization` header.",
         "security": [
           {
             "bearerAuth": []
@@ -961,7 +737,8 @@
             "schema": {
               "type": "string",
               "example": "65ca67e7ae7f10c88b598384"
-            }
+            },
+            "description": "The unique identifier of the water card to be edited."
           }
         ],
         "requestBody": {
@@ -975,13 +752,13 @@
                 ],
                 "properties": {
                   "date": {
-                    "description": "Water card edition date",
+                    "description": "The date and time when the water card is edited. Must be in ISO 8601 format.",
                     "type": "string",
                     "format": "date-time",
                     "example": "2025-01-05T17:20:38.936"
                   },
                   "amount": {
-                    "description": "Amount of water",
+                    "description": "The amount of water consumed, in milliliters.",
                     "type": "number",
                     "example": 50
                   }
@@ -992,7 +769,7 @@
         },
         "responses": {
           "201": {
-            "description": "Editing a water map",
+            "description": "Successfully edited the water card.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1040,7 +817,7 @@
         ],
         "summary": "Removing a card",
         "operationId": "deleteCard",
-        "description": "Removing a water card",
+        "description": "Remove an existing water card. This endpoint allows the authenticated user to delete a specific water card by providing the card's unique identifier. The user must provide a valid access token in the `Authorization` header.",
         "security": [
           {
             "bearerAuth": []
@@ -1054,12 +831,13 @@
             "schema": {
               "type": "string",
               "example": "65ca67e7ae7f10c88b598384"
-            }
+            },
+            "description": "The unique identifier of the water card to be deleted."
           }
         ],
         "responses": {
           "204": {
-            "description": "Removing a water card",
+            "description": "Successfully removed the water card.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1093,7 +871,7 @@
         ],
         "summary": "Day cards",
         "operationId": "dayCard",
-        "description": "Total day water cards",
+        "description": "Retrieve the total water cards for the day. This endpoint allows the authenticated user to get a summary of their water intake for a specific day. The user must provide a valid access token in the `Authorization` header and a date in the query parameters to specify the day.",
         "security": [
           {
             "bearerAuth": []
@@ -1108,12 +886,13 @@
               "type": "string",
               "format": "date-time",
               "example": "2025-01-12T00:00:00Z"
-            }
+            },
+            "description": "The date to specify the day for which the water cards are being retrieved. Must be in ISO 8601 format."
           }
         ],
         "responses": {
           "200": {
-            "description": "Total day water cards",
+            "description": "Successfully retrieved the total water cards for the day.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1140,12 +919,12 @@
                       ],
                       "properties": {
                         "totalDailyWaterAmount": {
-                          "description": "Total daily water amount",
+                          "description": "The total amount of water consumed over the day, in liters.",
                           "type": "number",
                           "example": 5
                         },
                         "todayWaterCards": {
-                          "description": "Cards per day",
+                          "description": "The list of water cards for the day.",
                           "type": "array",
                           "items": {
                             "$ref": "#/components/schemas/water"
@@ -1177,7 +956,7 @@
         ],
         "summary": "Month cards",
         "operationId": "monthCard",
-        "description": "Total month water cards",
+        "description": "Retrieve the total water cards for the month. This endpoint allows the authenticated user to get a summary of their water intake for a specific month. The user must provide a valid access token in the `Authorization` header and a date in the query parameters to specify the month.",
         "security": [
           {
             "bearerAuth": []
@@ -1192,12 +971,13 @@
               "type": "string",
               "format": "date-time",
               "example": "2025-01-01T00:00:00Z"
-            }
+            },
+            "description": "The date to specify the month for which the water cards are being retrieved. Must be in ISO 8601 format."
           }
         ],
         "responses": {
           "200": {
-            "description": "Total month water cards",
+            "description": "Successfully retrieved the total water cards for the month.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1224,96 +1004,12 @@
                       ],
                       "properties": {
                         "totalMonthWaterAmount": {
-                          "description": "Total daily water amount",
+                          "description": "The total amount of water consumed over the month, in liters.",
                           "type": "number",
                           "example": 5
                         },
                         "monthWaterCards": {
-                          "description": "Cards per month",
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/components/schemas/water"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
-    "/water/today": {
-      "get": {
-        "tags": [
-          "Water"
-        ],
-        "summary": "Day cards",
-        "operationId": "todayCard",
-        "description": "Total today water cards",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "date",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "date-time",
-              "example": "2025-01-12T00:00:00Z"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Total today water cards",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Total today water cards"
-                    },
-                    "data": {
-                      "type": "object",
-                      "required": [
-                        "totalDailyWaterAmount",
-                        "todayWaterCards"
-                      ],
-                      "properties": {
-                        "totalDailyWaterAmount": {
-                          "description": "Total daily water amount",
-                          "type": "number",
-                          "example": 5
-                        },
-                        "todayWaterCards": {
-                          "description": "Cards per today",
+                          "description": "The list of water cards for the month.",
                           "type": "array",
                           "items": {
                             "$ref": "#/components/schemas/water"
@@ -1361,18 +1057,21 @@
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 400
+                  "example": 400,
+                  "description": "The HTTP status code for a bad request."
                 },
                 "message": {
                   "type": "string",
-                  "example": "Bad Request Error"
+                  "example": "Bad Request Error",
+                  "description": "A brief description of the error."
                 },
                 "data": {
                   "type": "object",
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "The request could not be understood by the server due to malformed syntax"
+                      "example": "The request could not be understood by the server due to malformed syntax",
+                      "description": "Detailed information about the error, specifying that the request was not understood due to incorrect syntax."
                     }
                   }
                 }
@@ -1395,18 +1094,21 @@
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 401
+                  "example": 401,
+                  "description": "The HTTP status code for an unauthorized request."
                 },
                 "message": {
                   "type": "string",
-                  "example": "Unauthorized error"
+                  "example": "Unauthorized error",
+                  "description": "A brief description of the error."
                 },
                 "data": {
                   "type": "object",
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Access token not provided"
+                      "example": "Access token not provided",
+                      "description": "Detailed information about the error, specifying that the access token was not provided."
                     }
                   }
                 }
@@ -1429,18 +1131,21 @@
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 404
+                  "example": 404,
+                  "description": "The HTTP status code indicating that the requested resource was not found."
                 },
                 "message": {
                   "type": "string",
-                  "example": "Not Found Error"
+                  "example": "Not Found Error",
+                  "description": "A brief description of the error."
                 },
                 "data": {
                   "type": "object",
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "The specified resource was not found!"
+                      "example": "The specified resource was not found!",
+                      "description": "Detailed information about the error, specifying that the resource requested could not be found."
                     }
                   }
                 }
@@ -1463,18 +1168,21 @@
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 409
+                  "example": 409,
+                  "description": "The HTTP status code indicating a conflict, such as when the provided email is already in use."
                 },
                 "message": {
                   "type": "string",
-                  "example": "Email already exist"
+                  "example": "Email already exist",
+                  "description": "A brief description of the error."
                 },
                 "data": {
                   "type": "object",
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Email already exist"
+                      "example": "Email already exist",
+                      "description": "Detailed information about the error, specifying that the email provided is already in use."
                     }
                   }
                 }
@@ -1497,18 +1205,21 @@
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 500
+                  "example": 500,
+                  "description": "The HTTP status code indicating that the server encountered an unexpected condition that prevented it from fulfilling the request."
                 },
                 "message": {
                   "type": "string",
-                  "example": "Internal server error"
+                  "example": "Internal server error",
+                  "description": "A brief description of the error."
                 },
                 "data": {
                   "type": "object",
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Internal server error"
+                      "example": "Internal server error",
+                      "description": "Detailed information about the error, specifying that the server encountered an unexpected condition."
                     }
                   }
                 }
@@ -1535,27 +1246,27 @@
         ],
         "properties": {
           "_id": {
-            "description": "User's id",
+            "description": "The unique identifier of the user.",
             "type": "string",
             "example": "65e4decdd286b30065d54af9"
           },
           "name": {
-            "description": "User's name",
+            "description": "The name of the user.",
             "type": "string",
             "example": "Peter Pavlov"
           },
           "email": {
-            "description": "User's email",
+            "description": "The email address of the user.",
             "type": "string",
             "example": "peter12@example.com"
           },
           "avatarURL": {
-            "description": "Link to user's photo",
+            "description": "The URL link to the user's avatar photo. This can be a binary file.",
             "type": "string",
             "format": "binary"
           },
           "gender": {
-            "description": "Choose gender",
+            "description": "The gender of the user.",
             "type": "string",
             "enum": [
               "female",
@@ -1563,35 +1274,36 @@
             ]
           },
           "weight": {
-            "description": "User`s weight",
+            "description": "The weight of the user in kilograms.",
             "type": "number",
             "example": 60
           },
           "activityTime": {
-            "description": "User active time",
+            "description": "The daily activity time of the user in hours.",
             "type": "number",
             "example": 2
           },
           "desiredVolume": {
-            "description": "Desired water volume",
+            "description": "The desired daily water intake volume of the user in liters. Must be between 50 ml and 5000 ml.",
             "type": "number",
             "example": 1.5,
             "minimum": 50,
             "maximum": 5000
           },
           "createdAt": {
-            "description": "Creation date",
+            "description": "The date and time when the user was created. Must be in ISO 8601 format.",
             "type": "string",
             "example": "2025-01-11T19:54:04.483Z"
           },
           "updatedAt": {
-            "description": "Update date",
+            "description": "The date and time when the user was last updated. Must be in ISO 8601 format.",
             "type": "string",
             "example": "2025-01-11T19:54:04.483Z"
           }
         }
       },
       "water": {
+        "type": "object",
         "required": [
           "date",
           "amount",
@@ -1600,23 +1312,24 @@
         ],
         "properties": {
           "date": {
-            "description": "Water card creation date",
+            "description": "The date and time when the water card is created. Must be in ISO 8601 format.",
             "type": "string",
             "format": "date-time",
             "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}Z$",
             "example": "2025-01-05T17:14:00Z"
           },
           "amount": {
-            "description": "Amount of water",
+            "description": "The amount of water consumed, in milliliters.",
             "type": "number",
             "example": 50
           },
           "owner": {
-            "description": "User id",
+            "description": "The unique identifier of the user who owns this water card.",
             "type": "string",
             "example": "677abe02f27bdbf2cc19d845"
           },
           "id": {
+            "description": "The unique identifier of the water card.",
             "type": "string",
             "example": "6776a2cecf4ab2a20b383055"
           }

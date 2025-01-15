@@ -2,11 +2,11 @@ tags:
   - Auth
 summary: User logout
 operationId: logoutUser
-description: User logout
+description: Log out the authenticated user. This endpoint invalidates the current access token and terminates the user's session. The user must provide a valid access token in the `Authorization` header to successfully log out.
 security: []
 responses:
   '204':
-    description: User logout
+    description: Successfully logged out the user and terminated the session.
     content:
       application/json:
         schema:

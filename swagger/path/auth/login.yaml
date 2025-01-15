@@ -1,8 +1,8 @@
 tags:
   - Auth
-summary: User authentication
+summary: User login
 operationId: loginUser
-description: User authentication
+description: Authenticate a user and issue a new access token. This endpoint verifies the user's credentials and returns a token used for subsequent authenticated requests.
 security: []
 requestBody:
   content:
@@ -14,16 +14,16 @@ requestBody:
           - password
         properties:
           email:
-            description: User's email
+            description: The email address of the user logging in.
             type: string
             example: peter12@example.com
           password:
-            description: User's password
+            description: The password of the user logging in.
             type: string
             example: Asdf1234
 responses:
   '200':
-    description: User authentication
+    description: Successfully authenticated the user and issued a new access token.
     content:
       application/json:
         schema:
@@ -49,39 +49,39 @@ responses:
                   type: object
                   properties:
                     userId:
-                      description: User`s id
+                      description: The unique identifier of the authenticated user.
                       type: string
                       example: 678427d895056fd9ae40e7c0
                     email:
-                      description: User`s email
+                      description: The email address of the authenticated user.
                       type: string
                       example: peter12@example.com
                     name:
-                      description: User's name
+                      description: The name of the authenticated user.
                       type: string
                       example: Peter Pavlov
                     gender:
-                      description: User's gender
+                      description: The gender of the authenticated user.
                       type: string
                       example: male
                     avatarURL:
-                      description: Link to user's photo
+                      description: The URL to the user's avatar.
                       type: string
                       example: https://example.com/avatar.jpg
                     desiredVolume:
-                      description: Desired water volume
+                      description: The desired water volume of the user.
                       type: number
                       example: 1.5
                     weight:
-                      description: User's weight
+                      description: The weight of the user.
                       type: number
                       example: 60
                     activityTime:
-                      description: User's active time
+                      description: The active time of the user.
                       type: number
                       example: 2
                 accessToken:
-                  description: AccessToken
+                  description: The access token for the authenticated user.
                   type: string
                   example: NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh
   '400':

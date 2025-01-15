@@ -26,15 +26,9 @@ paths:
   /auth/logout:
     post:
       $ref: ../swagger/path/auth/logout.yaml
-  /auth/refresh:
-    post:
-      $ref: ../swagger/path/auth/refresh.yaml
   /auth/update-user:
     patch:
       $ref: ../swagger/path/auth/update-user.yaml
-  /auth/get-oauth-url:
-    get:
-      $ref: ../swagger/path/auth/get-oauth-url.yaml
   /auth/google-login:
     post:
       $ref: ../swagger/path/auth/google-login.yaml
@@ -44,12 +38,6 @@ paths:
   /auth/reset-pwd:
     post:
       $ref: ../swagger/path/auth/reset-pwd.yaml
-  /auth/current:
-    get:
-      $ref: ../swagger/path/auth/current.yaml
-  /auth/count:
-    get:
-      $ref: ../swagger/path/auth/count.yaml
   /water:
     post:
       $ref: ../swagger/path/water/post.yaml
@@ -64,9 +52,6 @@ paths:
   /water/month:
     get:
       $ref: ../swagger/path/water/get-month.yaml
-  /water/today:
-    get:
-      $ref: ../swagger/path/water/get-today.yaml
 components:
   securitySchemes:
     bearerAuth:

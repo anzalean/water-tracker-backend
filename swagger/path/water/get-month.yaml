@@ -2,7 +2,7 @@ tags:
   - Water
 summary: Month cards
 operationId: monthCard
-description: Total month water cards
+description: Retrieve the total water cards for the month. This endpoint allows the authenticated user to get a summary of their water intake for a specific month. The user must provide a valid access token in the `Authorization` header and a date in the query parameters to specify the month.
 security:
   - bearerAuth: []
 parameters:
@@ -13,9 +13,10 @@ parameters:
       type: string
       format: date-time
       example: '2025-01-01T00:00:00Z'
+    description: The date to specify the month for which the water cards are being retrieved. Must be in ISO 8601 format.
 responses:
   '200':
-    description: Total month water cards
+    description: Successfully retrieved the total water cards for the month.
     content:
       application/json:
         schema:
@@ -38,11 +39,11 @@ responses:
                 - monthWaterCards
               properties:
                 totalMonthWaterAmount:
-                  description: Total daily water amount
+                  description: The total amount of water consumed over the month, in liters.
                   type: number
                   example: 5
                 monthWaterCards:
-                  description: Cards per month
+                  description: The list of water cards for the month.
                   type: array
                   items:
                     $ref: ../../components/schemas/water.yaml

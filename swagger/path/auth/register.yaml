@@ -2,7 +2,7 @@ tags:
   - Auth
 summary: User registration
 operationId: registerUser
-description: New user registration
+description: Register a new user. This endpoint creates a new user account with the provided email and password.
 security: []
 requestBody:
   content:
@@ -14,18 +14,18 @@ requestBody:
           - password
         properties:
           email:
-            description: User's email
+            description: The email address of the user to register.
             type: string
             example: peter12@example.com
           password:
-            description: User's password
+            description: The password for the new user account. Must be between 8 and 50 characters.
             type: string
             minLength: 8
             maxLength: 50
             example: Asdf1234
 responses:
   '201':
-    description: User registration
+    description: Successfully registered a new user.
     content:
       application/json:
         schema:
@@ -48,11 +48,11 @@ responses:
                 - email
               properties:
                 userId:
-                  description: User`s id
+                  description: The unique identifier of the registered user.
                   type: string
                   example: 678427d895056fd9ae40e7c0
                 email:
-                  description: User`s email
+                  description: The email address of the registered user.
                   type: string
                   example: peter12@example.com
   '400':

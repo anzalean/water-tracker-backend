@@ -2,7 +2,7 @@ tags:
   - Water
 summary: Day cards
 operationId: dayCard
-description: Total day water cards
+description: Retrieve the total water cards for the day. This endpoint allows the authenticated user to get a summary of their water intake for a specific day. The user must provide a valid access token in the `Authorization` header and a date in the query parameters to specify the day.
 security:
   - bearerAuth: []
 parameters:
@@ -13,9 +13,10 @@ parameters:
       type: string
       format: date-time
       example: '2025-01-12T00:00:00Z'
+    description: The date to specify the day for which the water cards are being retrieved. Must be in ISO 8601 format.
 responses:
   '200':
-    description: Total day water cards
+    description: Successfully retrieved the total water cards for the day.
     content:
       application/json:
         schema:
@@ -38,11 +39,11 @@ responses:
                 - todayWaterCards
               properties:
                 totalDailyWaterAmount:
-                  description: Total daily water amount
+                  description: The total amount of water consumed over the day, in liters.
                   type: number
                   example: 5
                 todayWaterCards:
-                  description: Cards per day
+                  description: The list of water cards for the day.
                   type: array
                   items:
                     $ref: ../../components/schemas/water.yaml
