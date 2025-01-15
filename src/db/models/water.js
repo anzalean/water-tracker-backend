@@ -7,11 +7,11 @@ const unixDay = 86400000;
 const waterSchema = new Schema(
   {
     date: {
-      type: Number,
+      type: Date,
       min: +startDate,
       validate: {
         validator: function (value) {
-          return value <= Date.now() + unixDay;
+          return new Date(value) <= Date.now() + unixDay;
         },
         message: 'Date must be less than or equal to the current date.',
       },
