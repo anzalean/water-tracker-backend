@@ -2,7 +2,7 @@ tags:
   - Auth
 summary: Reset password
 operationId: resetPassword
-description: Reset password
+description: Reset the user's password. This endpoint allows a user to reset their password using a provided token. The user must provide a valid token and a new password. Upon successful reset, the user's password is updated.
 security: []
 requestBody:
   content:
@@ -14,16 +14,18 @@ requestBody:
           - password
         properties:
           token:
-            description: Token
+            description: The token used to authorize the password reset. This token is typically received via email.
             type: string
             example: NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh
           password:
-            description: User's password
+            description: The new password for the user. Must be between 8 and 50 characters.
+            minLength: 8
+            maxLength: 50
             type: string
             example: Asdf1234
 responses:
   '200':
-    description: Reset password
+    description: Successfully reset the user's password.
     content:
       application/json:
         schema:
@@ -43,8 +45,8 @@ responses:
               type: object
               example: {}
   '401':
-    $ref: '../../components/responses/auth/401.yaml'
+    $ref: ../../components/responses/401.yaml
   '404':
-    $ref: '../../components/responses/auth/404.yaml'
+    $ref: ../../components/responses/404.yaml
   '500':
-    $ref: '../../components/responses/500.yaml'
+    $ref: ../../components/responses/500.yaml

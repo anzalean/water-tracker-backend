@@ -1,8 +1,8 @@
 tags:
   - Water
 summary: Day cards
-operationId: todayCard
-description: Total today water cards
+operationId: dayCard
+description: Retrieve the total water cards for the day. This endpoint allows the authenticated user to get a summary of their water intake for a specific day. The user must provide a valid access token in the `Authorization` header and a date in the query parameters to specify the day.
 security:
   - bearerAuth: []
 parameters:
@@ -12,10 +12,11 @@ parameters:
     schema:
       type: string
       format: date-time
-      example: '65ca67e7ae7f10c88b598384'
+      example: '2025-01-12T00:00:00Z'
+    description: The date to specify the day for which the water cards are being retrieved. Must be in ISO 8601 format.
 responses:
   '200':
-    description: Total today water cards
+    description: Successfully retrieved the total water cards for the day.
     content:
       application/json:
         schema:
@@ -30,7 +31,7 @@ responses:
               example: 200
             message:
               type: string
-              example: Total today water cards
+              example: Total day water cards
             data:
               type: object
               required:
@@ -38,17 +39,17 @@ responses:
                 - todayWaterCards
               properties:
                 totalDailyWaterAmount:
-                  description: Total daily water amount
+                  description: The total amount of water consumed over the day, in liters.
                   type: number
                   example: 5
                 todayWaterCards:
-                  description: Cards per today
+                  description: The list of water cards for the day.
                   type: array
                   items:
                     $ref: ../../components/schemas/water.yaml
-  '401' :
-    $ref: '../../components/responses/water/401.yaml'
-  '404' :
-    $ref: '../../components/responses/water/404.yaml'
+  '401':
+    $ref: ../../components/responses/401.yaml
+  '404':
+    $ref: ../../components/responses/404.yaml
   '500':
-    $ref: '../../components/responses/500.yaml'
+    $ref: ../../components/responses/500.yaml

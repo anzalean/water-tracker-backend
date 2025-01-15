@@ -1,3 +1,4 @@
+type: object
 required:
   - _id
   - name
@@ -11,42 +12,44 @@ required:
   - updatedAt
 properties:
   _id:
-    description: User's id
+    description: The unique identifier of the user.
     type: string
     example: 65e4decdd286b30065d54af9
   name:
-    description: User's name
+    description: The name of the user.
     type: string
     example: Peter Pavlov
   email:
-    description: User's email
+    description: The email address of the user.
     type: string
     example: peter12@example.com
   avatarURL:
-    description: Link to user's photo
+    description: The URL link to the user's avatar photo. This can be a binary file.
     type: string
     format: binary
   gender:
-    description: Choose gender
+    description: The gender of the user.
     type: string
     enum: ['female', 'male']
   weight:
-    description: User`s weight
+    description: The weight of the user in kilograms.
     type: number
     example: 60
   activityTime:
-    description: User active time
+    description: The daily activity time of the user in hours.
     type: number
     example: 2
   desiredVolume:
-    description: Desired water volume
+    description: The desired daily water intake volume of the user in liters. Must be between 50 ml and 5000 ml.
     type: number
     example: 1.5
+    minimum: 50
+    maximum: 5000
   createdAt:
-    description: Creation date
+    description: The date and time when the user was created. Must be in ISO 8601 format.
     type: string
-    example: 2025-01-11T19:54:04.483Z
+    example: '2025-01-11T19:54:04.483Z'
   updatedAt:
-    description: Update date
+    description: The date and time when the user was last updated. Must be in ISO 8601 format.
     type: string
-    example: 2025-01-11T19:54:04.483Z
+    example: '2025-01-11T19:54:04.483Z'

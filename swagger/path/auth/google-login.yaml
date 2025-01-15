@@ -2,7 +2,7 @@ tags:
   - Auth
 summary: Login via Google OAuth
 operationId: googleLogin
-description: Login via Google OAuth
+description: Authenticate a user using Google OAuth. This endpoint verifies the token received from Google and logs the user in, issuing a new access token for subsequent authenticated requests.
 security: []
 requestBody:
   content:
@@ -13,12 +13,12 @@ requestBody:
           - code
         properties:
           code:
-            description: Token
+            description: The authorization code received from Google after user login.
             type: string
             example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzgyY2I4ODQ4MDlhNjFhYjk2YzQyOGYiLCJlbWFpbCI6ImdvY2hha2luZHJAdWtyLm5ldCIsImlhdCI6MTczNjY0MzQyMiwiZXhwIjoxNzM2NjQzNzIyfQ.1qKbcPj7mv6vNp0DzO_qSzRBFD1Boa5nBIKkopjAQMc
 responses:
   '200':
-    description: Login via Google OAuth
+    description: Successfully logged in via Google OAuth and issued a new access token.
     content:
       application/json:
         schema:
@@ -41,13 +41,13 @@ responses:
                 - user
               properties:
                 accessToken:
-                  description: AccessToken
+                  description: The access token for the authenticated user.
                   type: string
                   example: NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh
                 user:
                   type: object
-                  $ref: '../../components/schemas/user.yaml'
+                  $ref: ../../components/schemas/user.yaml
   '400':
-    $ref: '../../components/responses/auth/400.yaml'
+    $ref: ../../components/responses/400.yaml
   '500':
-    $ref: '../../components/responses/500.yaml'
+    $ref: ../../components/responses/500.yaml

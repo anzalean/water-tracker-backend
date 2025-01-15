@@ -2,7 +2,7 @@ tags:
   - Auth
 summary: Update user
 operationId: updateUser
-description: Updating and adding user data
+description: Update and add user data. This endpoint allows the authenticated user to update their profile information such as email, avatar, name, gender, weight, activity time, and desired water volume. The user must provide a valid access token in the `Authorization` header.
 security:
   - bearerAuth: []
 requestBody:
@@ -13,36 +13,40 @@ requestBody:
         required: []
         properties:
           email:
-            description: User's email
+            description: The email address of the user.
             type: string
             example: peter12@example.com
           avatarURL:
-            description: Link to user's photo
+            description: The link to the user's photo. This can be a binary file.
             type: string
             format: binary
           name:
-            description: User`s name
+            description: The name of the user. Must be between 3 and 20 characters.
             type: string
+            minLength: 3
+            maxLength: 20
             example: Peter Pavlov
           gender:
-            description: Choose gender
+            description: The gender of the user.
             type: string
             enum: ['female', 'male']
           weight:
-            description: User`s weight
+            description: The weight of the user.
             type: number
             example: 60
           activityTime:
-            description: User active time
+            description: The active time of the user, in hours per day.
             type: number
             example: 2
           desiredVolume:
-            description: Desired water volume
+            description: The desired water volume for the user, in milliliters per day. Must be between 50 and 5000 ml.
             type: number
+            minLength: 50
+            maxLength: 5000
             example: 50
 responses:
   '200':
-    description: update user
+    description: Successfully updated the user.
     content:
       application/json:
         schema:
@@ -67,7 +71,6 @@ responses:
                   type: object
                   $ref: ../../components/schemas/user.yaml
   '404':
-    $ref: '../../components/responses/auth/404.yaml'
+    $ref: ../../components/responses/404.yaml
   '500':
-    $ref: '../../components/responses/500.yaml'
-
+    $ref: ../../components/responses/500.yaml
