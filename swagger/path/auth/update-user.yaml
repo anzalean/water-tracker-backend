@@ -33,16 +33,18 @@ requestBody:
           weight:
             description: The weight of the user.
             type: number
+            minimum: 0
             example: 60
           activityTime:
             description: The active time of the user, in hours per day.
             type: number
+            minimum: 0
             example: 2
           desiredVolume:
             description: The desired water volume for the user, in milliliters per day. Must be between 50 and 5000 ml.
             type: number
-            minLength: 50
-            maxLength: 5000
+            minimum: 50
+            maximum: 5000
             example: 50
 responses:
   '200':

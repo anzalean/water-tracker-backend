@@ -14,6 +14,8 @@ properties:
   amount:
     description: The amount of water consumed, in milliliters.
     type: number
+    minimum: 0
+    maximum: 5000
     example: 50
   owner:
     description: The unique identifier of the user who owns this water card.

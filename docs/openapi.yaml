@@ -12,11 +12,11 @@ tags:
   - name: Auth
     description: Authentication and password reset operations.
 servers:
-  - url: http://127.0.0.1:3000
-    description: Development server
   - url: https://water-tracker-backend-guwj.onrender.com
     description: Production server
-paths:
+  - url: http://127.0.0.1:3000
+    description: Development server
+    paths:
   /auth/register:
     post:
       $ref: ../swagger/path/auth/register.yaml
