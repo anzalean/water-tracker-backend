@@ -17,11 +17,11 @@ properties:
     minimum: 0
     maximum: 5000
     example: 50
-  owner:
-    description: The unique identifier of the user who owns this water card.
-    type: string
-    example: 677abe02f27bdbf2cc19d845
-  id:
-    description: The unique identifier of the water card.
-    type: string
-    example: 6776a2cecf4ab2a20b383055
+  # owner:
+  #   description: The unique identifier of the user who owns this water card.
+  #   type: string
+  #   example: 677abe02f27bdbf2cc19d845
+  # id:
+  #   description: The unique identifier of the water card.
+  #   type: string
+  #   example: 6776a2cecf4ab2a20b383055
