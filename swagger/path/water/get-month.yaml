@@ -33,20 +33,21 @@ responses:
               type: string
               example: Total month water cards
             data:
-              type: object
-              required:
-                - totalMonthWaterAmount
-                - monthWaterCards
-              properties:
-                totalMonthWaterAmount:
-                  description: The total amount of water consumed over the month, in liters.
-                  type: number
-                  example: 5
-                monthWaterCards:
-                  description: The list of water cards for the month.
-                  type: array
-                  items:
-                    $ref: ../../components/schemas/water.yaml
+              type: array
+              items:
+                type: object
+                required:
+                  - date
+                  - totalDayWater
+                properties:
+                  date:
+                    type: string
+                    format: date-time
+                    example: '2025-01-01T00:00:00Z'
+                  totalDayWater:
+                    description: The total amount of water consumed on that day, in milliliters.
+                    type: number
+                    example: 5000
   '401':
     $ref: ../../components/responses/401.yaml
   '404':

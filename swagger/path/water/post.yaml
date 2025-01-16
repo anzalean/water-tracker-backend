@@ -18,10 +18,12 @@ requestBody:
             description: The date and time when the water card is created. Must be in ISO 8601 format.
             type: string
             format: date-time
-            example: '2025-01-05T17:20:38.936'
+            example: '2025-01-05T17:20:38.936Z'
           amount:
             description: The amount of water consumed, in milliliters.
             type: number
+            minimum: 50
+            maximum: 5000
             example: 50
 responses:
   '201':

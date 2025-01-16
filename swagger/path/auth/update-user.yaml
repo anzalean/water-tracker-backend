@@ -15,6 +15,7 @@ requestBody:
           email:
             description: The email address of the user.
             type: string
+            format: email
             example: peter12@example.com
           avatarURL:
             description: The link to the user's photo. This can be a binary file.
@@ -41,11 +42,11 @@ requestBody:
             minimum: 0
             example: 2
           desiredVolume:
-            description: The desired water volume for the user, in milliliters per day. Must be between 50 and 5000 ml.
+            description: The new desired daily water intake of the user in liters. Must be between 0.05 and 5 liters.
             type: number
-            minimum: 50
-            maximum: 5000
-            example: 50
+            minimum: 0.05
+            maximum: 5
+            example: 2.5
 responses:
   '200':
     description: Successfully updated the user.
