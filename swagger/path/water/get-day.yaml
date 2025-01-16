@@ -35,18 +35,28 @@ responses:
             data:
               type: object
               required:
-                - totalDailyWaterAmount
-                - todayWaterCards
+                - date
+                - totalDayWater
+                - consumedWaterData
+                - owner
               properties:
-                totalDailyWaterAmount:
-                  description: The total amount of water consumed over the day, in liters.
+                date:
+                  type: string
+                  format: date-time
+                  example: '2025-01-12T00:00:00Z'
+                totalDayWater:
+                  description: The total amount of water consumed over the day, in milliliters.
                   type: number
-                  example: 5
-                todayWaterCards:
+                  example: 5000
+                consumedWaterData:
                   description: The list of water cards for the day.
                   type: array
                   items:
                     $ref: ../../components/schemas/water.yaml
+                owner:
+                  description: The unique identifier of the user who owns the water cards.
+                  type: string
+                  example: '60d21b4667d0d8992e610c85'
   '401':
     $ref: ../../components/responses/401.yaml
   '404':

@@ -40,11 +40,11 @@ properties:
     type: number
     example: 2
   desiredVolume:
-    description: The desired daily water intake volume of the user in liters. Must be between 50 ml and 5000 ml.
+    description: The desired daily water intake volume of the user in liters. Must be between 0.05l and 5l.
     type: number
     example: 1.5
-    minimum: 50
-    maximum: 5000
+    minimum: 0.05
+    maximum: 5
   createdAt:
     description: The date and time when the user was created. Must be in ISO 8601 format.
     type: string
