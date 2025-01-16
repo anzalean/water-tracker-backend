@@ -5,6 +5,7 @@ operationId: loginUser
 description: Authenticate a user and issue a new access token. This endpoint verifies the user's credentials and returns a token used for subsequent authenticated requests.
 security: []
 requestBody:
+  required: true
   content:
     application/json:
       schema:
@@ -20,7 +21,9 @@ requestBody:
           password:
             description: The password of the user logging in.
             type: string
-            example: Asdf1234
+            minLength: 8
+            maxLength: 50
+            example: password123
 responses:
   '200':
     description: Successfully authenticated the user and issued a new access token.
@@ -81,7 +84,7 @@ responses:
                       type: number
                       example: 2
                 accessToken:
-                  description: The access token for the authenticated user.
+                  description: The access token that must be used for authenticated requests. Obtain this token by logging in using the `/auth/login` endpoint.
                   type: string
                   example: NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh
   '400':
