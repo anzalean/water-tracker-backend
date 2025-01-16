@@ -1,12 +1,13 @@
 import createHttpError from "http-errors";
-import { addWaterCardService, deleteWaterCardService, getDayWaterService, getMonthWaterService, getSummaryTodayWaterService, updateWaterCardService } from "../services/water.js";
+import { addWaterCardService, deleteWaterCardService, getDayWaterService, getMonthWaterService, updateWaterCardService } from "../services/water.js";
 
 export async function addWaterCardController(req, res) {
   const {date, amount} = req.body;
   const userId = req.user.id;
+  const formatedDate = new Date(date);
 
   const waterNote = {
-    date,
+    date: formatedDate,
     amount,
     owner: userId
   };
@@ -24,9 +25,11 @@ export async function updateWaterCardController(req, res) {
   const {cardId} = req.params;
   const {date, amount} = req.body;
   const userId = req.user.id;
+  const formatedDate = new Date(date);
+
 
   const waterNote = {
-    date,
+    date: formatedDate,
     amount,
     owner: userId
   };
@@ -55,7 +58,7 @@ export async function deleteWaterCardController(req, res) {
 }
 
 export async function getDayWaterContoller(req, res) {
-  
+
   const result = await getDayWaterService(req, res);
   res.status(200).send({
     status: 200,
@@ -71,16 +74,6 @@ export async function getMonthWaterContoller(req, res) {
   res.status(200).send({
     status: 200,
     message: 'Total month water cards',
-    data: result,
-  });
-}
-
-export async function getTodayWaterContoller(req, res) {
-
-  const result = await getSummaryTodayWaterService(req, res);
-  res.status(200).send({
-    status: 200,
-    message: 'Total today water cards',
     data: result,
   });
 }

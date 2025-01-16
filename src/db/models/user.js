@@ -33,9 +33,9 @@ const userSchema = new Schema(
     },
     desiredVolume: {
       type: Number,
-      min: 50,
-      max: 5000,
-      default: 1500,
+      min: 0.05,
+      max: 5,
+      default: 1.5,
     },
     accessToken: {
       type: String,
