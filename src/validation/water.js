@@ -21,15 +21,7 @@ export const addWaterCardSchema = Joi.object({
     .max(5000)  // Максимальне значення
     .required()
     .example(50)
-    .description('Amount of water in milliliters'),
-  owner: Joi.string()
-    .required()
-    .example('677abe02f27bdbf2cc19d845')
-    .description('User id who owns the water card'),
-  id: Joi.string()
-    .required()
-    .example('6776a2cecf4ab2a20b383055')
-    .description('Unique identifier of the water card')
+    .description('Amount of water in milliliters')
 });
 
 export const updateWaterCardSchema = Joi.object({
@@ -43,13 +35,5 @@ export const updateWaterCardSchema = Joi.object({
     .max(5000)  // Максимальне значення
     .required()
     .example(50)
-    .description('Amount of water in milliliters'),
-  owner: Joi.string()
-    .required()
-    .example('677abe02f27bdbf2cc19d845')
-    .description('User id who owns the water card'),
-  id: Joi.string()
-    .required()
-    .example('6776a2cecf4ab2a20b383055')
-    .description('Unique identifier of the water card')
+    .description('Amount of water in milliliters')
 });
