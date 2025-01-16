@@ -1,6 +1,6 @@
 import {Router} from "express";
 import { validateBody } from "../middlewares/validateBody.js";
-import { addWaterCardController, deleteWaterCardController, getDayWaterContoller, getMonthWaterContoller, getTodayWaterContoller, updateWaterCardController } from "../controllers/water.js";
+import { addWaterCardController, deleteWaterCardController, getDayWaterContoller, getMonthWaterContoller, updateWaterCardController } from "../controllers/water.js";
 import { addWaterCardSchema, updateWaterCardSchema } from "../validation/water.js";
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 import { isValidId } from "../middlewares/isValidId.js";
@@ -29,10 +29,6 @@ router.get(
 router.get(
   '/month',
   ctrlWrapper(getMonthWaterContoller),
-);
-router.get(
-  '/today',
-  ctrlWrapper(getTodayWaterContoller),
 );
 
 export default router;
