@@ -11,7 +11,7 @@ import Joi from 'joi';
 
 
 export const addWaterCardSchema = Joi.object({
-  date: Joi.date()
+  date: Joi.string()
     .iso()  // Перевірка формату ISO 8601
     .required()
     .example('2025-01-05T17:20:38.936Z')
@@ -33,7 +33,7 @@ export const addWaterCardSchema = Joi.object({
 });
 
 export const updateWaterCardSchema = Joi.object({
-  date: Joi.date()
+  date: Joi.string()
     .iso()  // Перевірка формату ISO 8601
     .required()
     .example('2025-01-05T17:20:38.936Z')
