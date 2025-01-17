@@ -72,7 +72,7 @@ endOfDay.setMinutes(endOfDay.getMinutes() - userTimezoneOffset); // Коригу
 
 export const getMonthWaterService = expressAsyncHandler(async (req, res) => {
   const { _id: owner } = req.user;
-  const date = new Date(JSON.parse(req.query.date));
+  const date = new Date(req.query.date);
 
   // Початок місяця
   const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
