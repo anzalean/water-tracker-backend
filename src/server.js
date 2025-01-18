@@ -14,14 +14,7 @@ const PORT = Number(env('PORT', '3000'));
 export const setupServer = () => {
     const app = express();
 
-    app.use(cors({
-        origin: [
-          "https://water-tracker-frontend-seven.vercel.app",
-          "https://water-tracker-backend-guwj.onrender.com",
-          "http://localhost:5173",
-        ],
-        credentials: true,
-      }));
+    app.use(cors());
     app.use(express.json());
     app.use(cookieParser());
     app.use(
