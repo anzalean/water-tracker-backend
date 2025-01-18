@@ -52,7 +52,12 @@ endOfDay.setMinutes(endOfDay.getMinutes() - userTimezoneOffset); // Коригу
   // }
 
   if (!foundWaterDayData.length) {
-    return [];
+    return {
+      date,
+      totalDayWater: 0,
+      consumedWaterData : [],
+      owner,
+    };
   }
 
   const totalDayWater = foundWaterDayData.reduce(
@@ -91,10 +96,6 @@ export const getMonthWaterService = expressAsyncHandler(async (req, res) => {
       $lt: endOfMonth,
     },
   });
-
-  if (!foundWaterMonthData.length) {
-    return [];
-  }
 
   const aggregatedData = foundWaterMonthData.reduce((acc, item) => {
     const date = new Date(item.date);
