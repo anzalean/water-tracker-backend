@@ -1,6 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import { Water } from "../db/models/water.js";
-import createHttpError from "http-errors";
+// import createHttpError from "http-errors";
 
 
 export async function addWaterCardService(waterNote) {
@@ -47,8 +47,12 @@ endOfDay.setMinutes(endOfDay.getMinutes() - userTimezoneOffset); // Коригу
     },
   });
 
+  // if (!foundWaterDayData.length) {
+  //   throw createHttpError(404, `Info for this day not found`);
+  // }
+
   if (!foundWaterDayData.length) {
-    throw createHttpError(404, `Info for this day not found`);
+    return [];
   }
 
   const totalDayWater = foundWaterDayData.reduce(
@@ -87,6 +91,10 @@ export const getMonthWaterService = expressAsyncHandler(async (req, res) => {
       $lt: endOfMonth,
     },
   });
+
+  if (!foundWaterMonthData.length) {
+    return [];
+  }
 
   const aggregatedData = foundWaterMonthData.reduce((acc, item) => {
     const date = new Date(item.date);
