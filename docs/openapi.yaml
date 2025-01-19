@@ -16,7 +16,7 @@ servers:
     description: Production server
   - url: http://127.0.0.1:3000
     description: Development server
-    paths:
+paths:
   /auth/register:
     post:
       $ref: ../swagger/path/auth/register.yaml
@@ -57,3 +57,4 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+      bearerFormat: JWT
