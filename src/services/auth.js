@@ -154,7 +154,7 @@ export const loginOrSignupWithGoogle = async (code) => {
     });
   }
 
-  const newSession = createSession();
+  const newSession = createSession(user._id);
   const session = await Session.create({
     userId: user._id,
     ...newSession,
