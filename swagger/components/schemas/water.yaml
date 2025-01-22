@@ -1,3 +1,4 @@
+type: object
 required:
   - date
   - amount
@@ -7,26 +8,22 @@ required:
   - updatedAt
 properties:
   date:
-    type: integer
-    minimum: 1704060000000
-    description: Event date in Unix timestamp (milliseconds since epoch)
-    example: 1705000000000
+    description: The date and time when the water card is created. Must be in ISO 8601 format.
+    type: string
+    format: date-time
+    pattern: ^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z$
+    example: '2025-01-05T17:14:00Z'
   amount:
-    description: Amount of water
+    description: The amount of water consumed, in milliliters.
     type: number
+    minimum: 0
+    maximum: 5000
     example: 50
-  owner:
-    description: User id
-    type: string
-    example: 677abe02f27bdbf2cc19d845
-  _id:
-    type: string
-    example: 6776a2cecf4ab2a20b383055
-  createdAt:
-    description: Creation date
-    type: string
-    example: 2025-01-11T19:54:04.483Z
-  updatedAt:
-    description: Update date
-    type: string
-    example: 2025-01-11T19:54:04.483Z
+  # owner:
+  #   description: The unique identifier of the user who owns this water card.
+  #   type: string
+  #   example: 677abe02f27bdbf2cc19d845
+  # id:
+  #   description: The unique identifier of the water card.
+  #   type: string
+  #   example: 6776a2cecf4ab2a20b383055

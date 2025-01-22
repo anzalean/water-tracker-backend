@@ -1,7 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import { Water } from "../db/models/water.js";
-import createHttpError from "http-errors";
-import { endOfMonth, startOfMonth } from "date-fns";
+// import createHttpError from "http-errors";
 
 
 export async function addWaterCardService(waterNote) {
@@ -25,28 +24,40 @@ export const deleteWaterCardService = async (cardId, owner) => {
 
 export const getDayWaterService = expressAsyncHandler(async (req, res) => {
   const { _id: owner } = req.user;
-  const date = new Date(+req.query.date);
+  const date = new Date(req.query.date);
+
   const userTimezoneOffset = req.user.timezoneOffset || 0;
 
-  const startOfDay = new Date(date);
-  startOfDay.setHours(0 - userTimezoneOffset / 60, 0, 0, 0);
+// Початок дня у UTC
+const startOfDay = new Date(date);
+startOfDay.setUTCHours(0, 0, 0, 0); // Встановлюємо час на початок дня (00:00:00)
+startOfDay.setMinutes(startOfDay.getMinutes() - userTimezoneOffset); // Коригуємо на часовий пояс користувача
 
-  const endOfDay = new Date(date);
-  endOfDay.setHours(23 - userTimezoneOffset / 60, 59, 59, 999);
+// Кінець дня у UTC
+const endOfDay = new Date(date);
+endOfDay.setUTCHours(23, 59, 59, 999); // Встановлюємо час на кінець дня (23:59:59.999)
+endOfDay.setMinutes(endOfDay.getMinutes() - userTimezoneOffset); // Коригуємо на часовий пояс користувача
 
-  const utcStart = startOfDay.getTime();
-  const utcEnd = endOfDay.getTime();
 
   const foundWaterDayData = await Water.find({
     owner,
     date: {
-      $gte: utcStart,
-      $lt: utcEnd,
+      $gte: startOfDay,
+      $lt: endOfDay,
     },
   });
 
+  // if (!foundWaterDayData.length) {
+  //   throw createHttpError(404, `Info for this day not found`);
+  // }
+
   if (!foundWaterDayData.length) {
-    throw createHttpError(404, `Info for this day not found`);
+    return {
+      date,
+      totalDayWater: 0,
+      consumedWaterData : [],
+      owner,
+    };
   }
 
   const totalDayWater = foundWaterDayData.reduce(
@@ -70,29 +81,19 @@ export const getDayWaterService = expressAsyncHandler(async (req, res) => {
 
 export const getMonthWaterService = expressAsyncHandler(async (req, res) => {
   const { _id: owner } = req.user;
-  const date = new Date(+req.query.date);
-  console.log(req.params.date);
+  const date = new Date(req.query.date);
 
+  // Початок місяця
+  const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
 
-  const userTimezoneOffset = req.user.timezoneOffset || 0;
-
-  const startOfMonthDate = startOfMonth(date);
-  const endOfMonthDate = endOfMonth(date);
-
-  const startOfDay = new Date(startOfMonthDate);
-  startOfDay.setHours(0 - userTimezoneOffset / 60, 0, 0, 0);
-
-  const endOfDay = new Date(endOfMonthDate);
-  endOfDay.setHours(23 - userTimezoneOffset / 60, 59, 59, 999);
-
-  const utcStart = startOfDay.getTime();
-  const utcEnd = endOfDay.getTime();
+  // Кінець місяця
+  const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
   const foundWaterMonthData = await Water.find({
     owner,
     date: {
-      $gte: utcStart,
-      $lt: utcEnd,
+      $gte: startOfMonth,
+      $lt: endOfMonth,
     },
   });
 
@@ -113,23 +114,4 @@ export const getMonthWaterService = expressAsyncHandler(async (req, res) => {
 
   const result = Object.values(aggregatedData);
   return result;
-});
-
-export const getSummaryTodayWaterService = expressAsyncHandler(async () => {
-  const startOfDay = new Date().setHours(0, 0, 0, 0);
-  const endOfDay = new Date().setHours(23, 59, 59, 999);
-
-  const todayWaterCards = await Water.find({
-    date: {
-      $gte: startOfDay,
-      $lte: endOfDay,
-    },
-  });
-
-  let totalDailyWaterAmount = 0;
-  for (const card of todayWaterCards) {
-    totalDailyWaterAmount += card.amount;
-  }
-
-  return {totalDailyWaterAmount, todayWaterCards };
 });

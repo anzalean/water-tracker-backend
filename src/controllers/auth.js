@@ -20,13 +20,13 @@ const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: 'Strict',
+    sameSite: 'none',
     expires: session.refreshTokenValidUntil,
   });
   res.cookie('sessionId', session._id, {
     httpOnly: true,
     secure: true,
-    sameSite: 'Strict',
+    sameSite: 'none',
     expires: session.refreshTokenValidUntil,
   });
 };
@@ -57,8 +57,8 @@ export const loginUserController = async (req, res) => {
       user: {
         userId: user._id,
         email: user.email,
-        name: user.name || user.email.split('@')[0], 
-        gender: user.gender, 
+        name: user.name || user.email.split('@')[0],
+        gender: user.gender,
         avatarURL: user.avatarURL,
         desiredVolume: user.desiredVolume,
         weight: user.weight,
@@ -195,7 +195,7 @@ export const getCurrentUserController = async (req, res) => {
     message: 'User fetched successfully',
     user: {
       ...user.toJSON(),
-      name: user.name || user.email.split('@')[0], 
+      name: user.name || user.email.split('@')[0],
     },
   });
 };

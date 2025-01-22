@@ -5,18 +5,17 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description:
-    This is a documentation of water tracker
+  description: This is a documentation of water tracker
 tags:
   - name: Water
     description: Water usage data operations.
   - name: Auth
-    description: Auth operations.
+    description: Authentication and password reset operations.
 servers:
-  - url: http://127.0.0.1:3000
-    description: Development server
   - url: https://water-tracker-backend-guwj.onrender.com
     description: Production server
+  - url: http://127.0.0.1:3000
+    description: Development server
 paths:
   /auth/register:
     post:
@@ -27,46 +26,35 @@ paths:
   /auth/logout:
     post:
       $ref: ../swagger/path/auth/logout.yaml
-  /auth/refresh:
-    post:
-      $ref: ../swagger/path/auth/refresh.yaml
   /auth/update-user:
     patch:
       $ref: ../swagger/path/auth/update-user.yaml
-  /auth/get-oauth-url:
-    get:
-      $ref: ../swagger/path/auth/get-oauth-url.yaml
   /auth/google-login:
     post:
       $ref: ../swagger/path/auth/google-login.yaml
   /auth/send-reset-email:
     post:
-      $ref: ../swagger/path/auth/sendResetEmail.yaml
+      $ref: ../swagger/path/auth/send-reset-email.yaml
   /auth/reset-pwd:
     post:
-      $ref: ../swagger/path/auth/resetPwd.yaml
-  /auth/current:
-    get:
-      $ref: ../swagger/path/auth/current.yaml
-  /auth/count:
-    get:
-      $ref: ../swagger/path/auth/count.yaml
+      $ref: ../swagger/path/auth/reset-pwd.yaml
   /water:
     post:
       $ref: ../swagger/path/water/post.yaml
-  /water/{id}:
+  /water/{cardId}:
     patch:
-      $ref: ../swagger/path/water/{id}/patch.yaml
+      $ref: ../swagger/path/water/{cardId}/patch.yaml
     delete:
-      $ref: ../swagger/path/water/{id}/delete.yaml
+      $ref: ../swagger/path/water/{cardId}/delete.yaml
   /water/day:
     get:
-      $ref: ../swagger/path/water/getDay.yaml
+      $ref: ../swagger/path/water/get-day.yaml
   /water/month:
     get:
-      $ref: ../swagger/path/water/getMonth.yaml
+      $ref: ../swagger/path/water/get-month.yaml
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
+      bearerFormat: JWT

@@ -46,8 +46,7 @@ export async function registerUserService(payload) {
 
   const newUser = await User.create({
     ...payload,
-    password: hashedPassword,
-     
+    password: hashedPassword
   });
 
   return {
@@ -199,7 +198,7 @@ export const requestResetTokenService = async (email) => {
     const template = handlebars.compile(templateSource);
     const resetLink = `${env('APP_DOMAIN')}/auth/reset-password?token=${resetToken}`;
     const html = template({
-        name: user.name,
+        name: user.name || user.email.split('@')[0],
         link: resetLink
     });
     console.log('Generated reset link:', resetLink);

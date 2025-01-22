@@ -14,13 +14,12 @@ requestBody:
           - password
         properties:
           token:
-            description: Token from email link
+            description: Token
             type: string
-            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzgzZDQwMTFjOTIxNmU3MzgxMjY2MGIiLCJlbWFpbCI6ImdvY2hha2luZHJAdWtyLm5ldCIsImlhdCI6MTczNjgxMDkzOCwiZXhwIjoxNzM2ODExMjM4fQ.oJdwYW0yY2OOMhIo2HvNsr3RVvFMRrFZO2lw3tJnBGI
+            example: NOfB2S2e0OVHjvJb41gxPf4Rc6gwZmblEgiC4axh
           password:
             description: User's password
             type: string
-            minLength: 6
             example: Asdf1234
 responses:
   '200':
@@ -44,8 +43,8 @@ responses:
               type: object
               example: {}
   '401':
-    $ref: '../../components/responses/auth/401.yaml'
+    $ref: '../../components/responses/401.yaml'
   '404':
-    $ref: '../../components/responses/auth/404.yaml'
+    $ref: '../../components/responses/404.yaml'
   '500':
     $ref: '../../components/responses/500.yaml'

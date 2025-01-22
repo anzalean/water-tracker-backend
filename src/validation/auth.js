@@ -5,10 +5,16 @@ export const registerUserSchema = Joi.object({
     password: Joi.string().min(8).max(50).required()
 });
 
-export const loginUserSchema =Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
+// export const loginUserSchema =Joi.object({
+//     email: Joi.string().email().required(),
+//     password: Joi.string().required(),
+// });
+
+export const loginUserSchema = Joi.object({
+    email: Joi.string().email().required().description('Email address of the user'),
+    password: Joi.string().min(8).max(50).required().description('Password for the user account'),
 });
+
 
 export const updateUserSchema = Joi.object({
     email: Joi.string().email().optional(),
@@ -17,7 +23,7 @@ export const updateUserSchema = Joi.object({
     gender: Joi.string().valid("male", "female").optional(),
     weight: Joi.number().min(0).optional(),
     activityTime: Joi.number().min(0).optional(),
-    desiredVolume: Joi.number().min(50).max(5000).optional(),
+    desiredVolume: Joi.number().min(0.05).max(5).optional(),
 });
 
 export const loginWithGoogleOAuthSchema = Joi.object({
@@ -29,6 +35,6 @@ export const requestResetEmailSchema = Joi.object({
 });
 
 export const resetPasswordSchema = Joi.object({
-    password: Joi.string().required(),
+    password: Joi.string().min(8).max(50).required(),
     token: Joi.string().required()
 });
